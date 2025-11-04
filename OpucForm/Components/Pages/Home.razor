@@ -1,0 +1,28 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using OpucForm.Models
+@using OpucForm.Data
+@inject ApplicationDbContext Db
+
+<h3>Form</h3>
+
+<input @bind="textValue" />
+<button @onclick="Submit">Submit</button>
+
+<p>@status</p>
+
+@code {
+    private string? textValue;
+    private string status = string.Empty;
+
+    private async Task Submit()
+    {
+        var entry = new FormEntry { TextValue = textValue, CreatedAt = DateTime.UtcNow };
+        
+        Db.FormEntries.Add(entry);
+        await Db.SaveChangesAsync();
+
+        status = "Saved.";
+        textValue = string.Empty;
+    }
+}
