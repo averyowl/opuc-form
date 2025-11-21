@@ -274,10 +274,61 @@ i {
     width: 70%;
   }
 }
+.application__message {
+  display: flex;
+  flex-direction: column;
+  /*
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  padding: 1rem 2rem;
+      */
+}
+@media only screen and (min-width: 56.25em) {
+  .application__message {
+    flex-direction: row;
+    margin: 2rem 0 2rem 0;
+  }
+}
+@media only screen and (min-width: 56.25em) {
+  .application__message-left {
+    flex: 50%;
+    justify-content: start;
+    margin-right: 2.5rem;
+  }
+}
+@media only screen and (min-width: 75em) {
+  .application__message-left {
+    margin: 0;
+  }
+}
+@media only screen and (min-width: 56.25em) {
+  .application__message-right {
+    flex: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .application__check {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+}
+@media only screen and (min-width: 56.25em) {
+  .application__check {
+    margin-top: 0;
+    background-color: #f2f2f2;
+    padding: 4rem 3.75rem;
+    border-radius: 2rem;
+    border: 1px solid #ccc;
+  }
+}
+.application__check-form {
+  width: 100%;
 }
 .application__top {
   margin-top: 1.75rem;
@@ -291,7 +342,6 @@ i {
 .application__item {
   font-size: 1.4rem;
   line-height: 1.85;
-  font-weight: 600;
 }
 .application__text {
   width: 100%;
@@ -379,6 +429,7 @@ i {
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
   border: 1px solid #ccc;
+  transition: border-color 0.2s ease;
 }
 .application__input:not(:last-child) {
   margin-bottom: 1rem;

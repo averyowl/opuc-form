@@ -12,12 +12,20 @@ namespace OpucForm.Components.Pages
         [Inject] private IJSRuntime JS { get; set; } = default!;
 
 
+
         private bool SameAsHomeAddress { get; set; } = true;
         private string? QualificationProgram { get; set; } = "";
         private IJSObjectReference? _mapboxModule;
         private string _ssn = "";
         private string? SelectedFileName;
 
+
+        // DB
+        private string? zipCode;
+
+
+        // Form Viewing
+        private bool showApplicationBody = false;
 
         public string SSN
 
@@ -48,7 +56,8 @@ namespace OpucForm.Components.Pages
             {
                 _mapboxModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/mapbox.js");
                 await _mapboxModule.InvokeVoidAsync("initMapbox");
-                
+              
+
             }
         }
 
@@ -67,6 +76,20 @@ namespace OpucForm.Components.Pages
             SelectedFileName = e.FileCount > 0
                 ? e.File.Name
                 : null;
+        }
+
+        private void CheckZip()
+        {
+            // For now, simulate a "valid" ZIP check
+            // Later, this will query the DB or API
+            if (!string.IsNullOrWhiteSpace(zipCode))
+            {
+                showApplicationBody = true;
+            }
+            else
+            {
+                showApplicationBody = false;
+            }
         }
 
 
