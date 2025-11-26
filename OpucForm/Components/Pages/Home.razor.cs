@@ -11,7 +11,7 @@ namespace OpucForm.Components.Pages
 
         [Inject] private IJSRuntime JS { get; set; } = default!;
 
-
+       
 
         private bool SameAsHomeAddress { get; set; } = true;
         private string? QualificationProgram { get; set; } = "";
@@ -26,6 +26,35 @@ namespace OpucForm.Components.Pages
 
         // Form Viewing
         private bool showApplicationBody = false;
+
+        // ================== Pagination ==================
+        private int CurrentStep = 1;
+        private int TotalSteps = 4;
+
+        private void GoNext()
+        {
+            if (CurrentStep < TotalSteps)
+                CurrentStep++;
+        }
+
+        private void GoBack()
+        {
+            if (CurrentStep > 1)
+                CurrentStep--;
+        }
+
+        private void GoToStep(int step)
+        {
+            CurrentStep = step;
+        }
+
+        private string GetBulletClass(int step)
+        {
+            if (step < CurrentStep) return "bullet past";        // Completed steps
+            if (step == CurrentStep) return "bullet current";    // Current step
+            return "bullet future";                              // Upcoming steps
+        }
+        // ================== Pagination ==================
 
         public string SSN
 

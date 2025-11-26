@@ -1,0 +1,88 @@
+
+<h1>About Lifeline Program</h1>
+
+          <div class="application__message">
+              <div class="application__message-left">
+                <h3 class="mt-3">Oregon Lifeline is a federal and state government program that provides a monthly discount on phone <strong>(up to $15.25)</strong> or high-speed internet service <strong>(up to $19.25)</strong> for qualifying households with low incomes through participating service providers.</h3>
+
+                <h2 class="mt-5">
+                    <strong>
+                  You may qualify if you receive one of the following benefits:
+                        </strong>
+                </h2>
+                <ul class="application__list">
+                  <li class="application__item">
+                    Supplemental Nutrition Assistance Program (SNAP)
+                  </li>
+                  <li class="application__item">Medicaid</li>
+                  <li class="application__item">
+                    Supplemental Security Income (SSI)
+                  </li>
+                  <li class="application__item">Veterans or Survivors Pension</li>
+                  <li class="application__item">
+                    Federal Public Housing Assistance (Section 8)
+                  </li>
+                  <li class="application__item">
+                    Total Household Income is at or below 135% of the Federal Poverty
+                    Guidelines
+                  </li>
+                </ul>
+
+                <h2 class="mt-4"><strong>Tribal Specific Programs:</strong></h2>
+                <ul class="application__list">
+                  <li class="application__item">Tribal General Assistance</li>
+                  <li class="application__item">Tribal Head Start</li>
+                  <li class="application__item">
+                    Tribal Temporary Assistance for Needy Families (TANF)
+                  </li>
+                  <li class="application__item">Tribal Food Distribution Program</li>
+                </ul>
+              </div>
+              <div class="application__message-right">
+                    
+                    <div class="application__message-right--i">
+                        <!--
+                        <div class="application__check">
+                            <h1>Check For Eligibility</h1>
+                                <form class="application__check-form"> 
+                                
+                                <label class="application__form-label" for="zipCode">Enter your Zip code to see avaliable providers in your area <span class="required">*</span></label>
+
+                                
+                                <InputText @bind-Value="zipCode" id="EligibilityZip" class="form-control form-control-lg application__input" placeholder="Zip Code" required />
+                                   
+                                <InputText id="EligibilityZip" class="form-control form-control-lg application__input" placeholder="Zip Code" required />
+                                
+                                    <input type="submit" name="btnSubmit" value="Check" id="btnSubmit" class="btn btn-primary">
+                            </form>
+                        </div>
+                        -->
+                            <h4 class="mb-4">Questions? Contact Us:</h4>
+
+                            <div class="application__contact">
+                              <p class="application__text">
+                                <strong>Phone (Monday - Friday, 9AM - 4PM):</strong>
+                                <a href="tel:18008484442" class="application__link">
+                                  1-800-848-4442
+                                </a>
+                              </p>
+                              <p class="application__text">
+                                <strong>Email:</strong>
+                                <a href="mailto:puc.rspf@puc.oregon.gov" class="application__link">puc.rspf@puc.oregon.gov</a>
+                              </p>
+                              <p class="application__text">
+                                <strong>Fax:</strong>
+                                <a href="tel:18775671977" class="application__link">
+                                  1-877-567-1977
+                                </a>
+                              </p>
+                    </div>
+
+                    </div>
+
+                  </div>
+              </div>
+
+@code {
+    private string zipCode = "";
+}

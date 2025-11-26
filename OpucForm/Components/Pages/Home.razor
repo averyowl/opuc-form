@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @using OpucForm.Models
 @using OpucForm.Data
+@using OpucForm.Components.Pagination
 @inject ApplicationDbContext Db
 
 
@@ -12,26 +13,81 @@
     <header class="header">
 
       <div class="header__wrapper">
-        <div class="header__lang">
+          <div  class="header__left">
+              <img src="img/opuc-logo.webp" class="header__left-logo"/>
+          </div>
+          <div class="header__right">
+            <div class="header__lang">
+                <div id="google_translate_element"></div>
+            </div>
+              <!--
+            <div class="header__accessibility">
+              <a href="#access" class="header__btn">
+                <i class="header__icon fa-solid fa-gear fa-2xl"></i>
+              </a>
+            </div>
+              -->
+          </div>
 
-          <!-- <a href="#lang" id="langToggle" aria-haspopup="true" aria-expanded="false" class="header__btn"> -->
-          <!-- <i class="header__icon fa-solid fa-language fa-2xl"></i> -->
-          <!--<a href="#"><div id="google_translate_element"></div></a> -->
-
-            <div id="google_translate_element"></div>
-
-
-        </div>
-        <div class="header__accessibility">
-          <a href="#access" class="header__btn">
-            <i class="header__icon fa-solid fa-gear fa-2xl"></i>
-          </a>
-        </div>
       </div>
 
     </header>
   
     <section class="application">
+
+        <!-- PAGINATION FORM -->
+        <div class="application__pagination">
+            <div class="application__pagination-progress">
+                <div class="application__pagination-progress--wrapper">
+                    <div class="pindicator">
+                        
+                        <div class="bullet @(CurrentStep > 1 ? "past" : (CurrentStep == 1 ? "current" : "future"))"
+                             @onclick="() => GoToStep(1)">
+                            <span class="icon">1</span>
+                        </div>
+
+                        <div class="bullet @(CurrentStep > 2 ? "past" : (CurrentStep == 2 ? "current" : "future"))"
+                             @onclick="() => GoToStep(2)">
+                            <span class="icon">2</span>
+                        </div>
+
+                        <div class="bullet @(CurrentStep > 3 ? "past" : (CurrentStep == 3 ? "current" : "future"))"
+                             @onclick="() => GoToStep(3)">
+                            <span class="icon">3</span>
+                        </div>
+
+                        <div class="bullet @(CurrentStep == 4 ? "current" : "future")"
+                             @onclick="() => GoToStep(4)">
+                            <span class="icon">4</span>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step content -->
+            <div class="application__pagination-form">
+                <div class="application__pagination-form--wrapper">
+                    @switch (CurrentStep)
+                    {
+                        case 1: <Step1Model /> break;
+                        case 2: <Step2Model /> break;
+                        case 3: <Step3Model /> break;
+                        case 4: <Step4Model /> break;
+                    }
+                </div>
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="pagination-buttons">
+                <button class="btn btn-primary" @onclick="GoBack" disabled="@(CurrentStep == 1)">Back</button>
+                <button class="btn btn-primary" @onclick="GoNext" disabled="@(CurrentStep == TotalSteps)">Next</button>
+            </div>
+
+        </div>
+
+        
       <div class="application__top">
         <h1>Online Application Form</h1>
         <h2>Oregon Lifeline Program</h2>
@@ -106,30 +162,6 @@
                                 </a>
                               </p>
                     </div>
-
-                  <!--
-                    <div class="application__message-left--i">
-                        <h4 class="mb-4">Questions? Contact Us:</h4>
-
-                        <div class="application__contact">
-                          <p class="application__text">
-                            <strong>Phone (Monday - Friday, 9AM - 4PM):</strong>
-                            <a href="tel:18008484442" class="application__link">
-                              1-800-848-4442
-                            </a>
-                          </p>
-                          <p class="application__text">
-                            <strong>Email:</strong>
-                            <a href="mailto:puc.rspf@puc.oregon.gov" class="application__link">puc.rspf@puc.oregon.gov</a>
-                          </p>
-                          <p class="application__text">
-                            <strong>Fax:</strong>
-                            <a href="tel:18775671977" class="application__link">
-                              1-877-567-1977
-                            </a>
-                          </p>
-                        </div>
-                  -->
 
                     </div>
 
