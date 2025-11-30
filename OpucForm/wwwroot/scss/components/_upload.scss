@@ -1,0 +1,49 @@
+.upload {
+    width: 100%;
+
+    &__label {
+        width: 100%;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        background-color: #f9f9f9;
+        border: 2px solid $color-green-opuc;
+        border-radius: 8px;
+        cursor: pointer;
+        color: $color-green-opuc;
+        font-size: 1.5rem;
+        font-weight: 600;
+        transition: background 0.2s ease;
+
+        @include respond(tab-port) {
+               width: 25%;
+        }
+        
+        &:hover {
+            background-color: #eef6ff;
+        }
+    }
+
+    &__wrapper {
+        
+    }
+
+    &__input {
+        width: 100%;
+        display: flex;
+    }
+}
+
+input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+i {
+    font-size: 1.35rem;
+}

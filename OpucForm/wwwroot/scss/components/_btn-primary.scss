@@ -1,0 +1,15 @@
+
+
+.btn-primary,
+.btn-primary {
+    width: 100%;
+    font-size: 1.45rem;
+    padding: 1.25rem 0;
+    font-weight: 600;
+    background-color: $color-green-opuc;
+    border-color: $color-blue-border;
+}
+
+.btn-primary:disabled {
+    background-color: lightgrey;
+}
