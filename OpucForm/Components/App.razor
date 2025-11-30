@@ -35,4 +35,19 @@
 
 </body>
 
+<script>
+  window.scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  function scrollToElement(selector, offset = 20) {
+      const el = document.querySelector(selector);
+      if (el) {
+          const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+      }
+  }
+
+</script>
+
 </html>

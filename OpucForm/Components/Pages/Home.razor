@@ -13,167 +13,197 @@
     <header class="header">
 
       <div class="header__wrapper">
-          <div  class="header__left">
-              <img src="img/opuc-logo.webp" class="header__left-logo"/>
+        <div class="header__left">
+          <img src="img/opuc-logo.webp" class="header__left-logo" />
+        </div>
+        <div class="header__right">
+          <div class="header__lang">
+            <div id="google_translate_element"></div>
           </div>
-          <div class="header__right">
-            <div class="header__lang">
-                <div id="google_translate_element"></div>
-            </div>
-              <!--
+          <!--
             <div class="header__accessibility">
               <a href="#access" class="header__btn">
                 <i class="header__icon fa-solid fa-gear fa-2xl"></i>
               </a>
             </div>
               -->
-          </div>
+        </div>
 
       </div>
 
     </header>
-  
+
     <section class="application">
 
-        <!-- PAGINATION FORM -->
-        <div class="application__pagination">
-            <div class="application__pagination-progress">
-                <div class="application__pagination-progress--wrapper">
-                    <div class="pindicator">
-                        
-                        <div class="bullet @(CurrentStep > 1 ? "past" : (CurrentStep == 1 ? "current" : "future"))"
-                             @onclick="() => GoToStep(1)">
-                            <span class="icon">1</span>
-                        </div>
+      <!-- PAGINATION FORM -->
+      <div class="application__pagination">
+        <div class="application__pagination-progress">
+          <div class="application__pagination-progress--wrapper">
+            <div class="pindicator">
 
-                        <div class="bullet @(CurrentStep > 2 ? "past" : (CurrentStep == 2 ? "current" : "future"))"
-                             @onclick="() => GoToStep(2)">
-                            <span class="icon">2</span>
-                        </div>
+              <div class="bullet @(CurrentStep > 1 ? "past" : (CurrentStep == 1 ? "current" : "future"))">
+                <span class="icon">1</span>
+                <div class="progress-fill" style="width:@(CurrentStep == 1 ? "50%" : "100%")"></div>
+              </div>
 
-                        <div class="bullet @(CurrentStep > 3 ? "past" : (CurrentStep == 3 ? "current" : "future"))"
-                             @onclick="() => GoToStep(3)">
-                            <span class="icon">3</span>
-                        </div>
+              <div class="bullet @(CurrentStep > 2 ? "past" : (CurrentStep == 2 ? "current" : "future"))">
+                <span class="icon">2</span>
+              </div>
 
-                        <div class="bullet @(CurrentStep == 4 ? "current" : "future")"
-                             @onclick="() => GoToStep(4)">
-                            <span class="icon">4</span>
-                        </div>
-                        
+              <div class="bullet @(CurrentStep > 3 ? "past" : (CurrentStep == 3 ? "current" : "future"))">
+                <span class="icon">3</span>
+              </div>
 
-                    </div>
-                </div>
+              <div class="bullet @(CurrentStep == 4 ? "current" : "future")">
+                <span class="icon">4</span>
+              </div>
+
+
             </div>
-
-            <!-- Step content -->
-            <div class="application__pagination-form">
-                <div class="application__pagination-form--wrapper">
-                    @switch (CurrentStep)
-                    {
-                        case 1: <Step1Model /> break;
-                        case 2: <Step2Model /> break;
-                        case 3: <Step3Model /> break;
-                        case 4: <Step4Model /> break;
-                    }
-                </div>
-            </div>
-
-            <!-- Navigation buttons -->
-            <div class="pagination-buttons">
-                <button class="btn btn-primary" @onclick="GoBack" disabled="@(CurrentStep == 1)">Back</button>
-                <button class="btn btn-primary" @onclick="GoNext" disabled="@(CurrentStep == TotalSteps)">Next</button>
-            </div>
-
+          </div>
         </div>
 
-        
+        <!-- Step content -->
+        <div class="application__pagination-form">
+          <div class="application__pagination-form--wrapper">
+            @switch (CurrentStep)
+            {
+              case 1:
+                <Step1Model OnProviderSelected="HandleProviderSelected" />
+                break;
+              case 2:
+                <Step2Model SelectedProvider="@selectedProvider" @key="selectedProvider" />
+                break;
+              case 3:
+                <Step3Model />
+                break;
+              case 4:
+                <Step4Model />
+                break;
+            }
+          </div>
+        </div>
+
+        <!-- Navigation buttons -->
+
+        <div class="pagination-buttons">
+
+          @* Only show "Back" if not on the first step *@
+          @if (CurrentStep > 1)
+          {
+            <button style="margin-right: 10rem;" class="btn btn-secondary" @onclick="GoBack"
+              disabled="@(CurrentStep == 1)">Back</button>
+          }
+
+          @* "Next" button changes text on the last step *@
+          <button class="btn btn-primary" @onclick="GoNext">
+            @{
+              string nextText;
+              if (CurrentStep == 1)
+              {
+                nextText = "Start Application";
+              }
+              else if (CurrentStep == TotalSteps)
+              {
+                nextText = "Submit";
+              }
+              else
+              {
+                nextText = "Next";
+              }
+            }
+            @nextText
+          </button>
+        </div>
+
+
+      </div>
+
+      <!-- Keep this here for now -->
       <div class="application__top">
         <h1>Online Application Form</h1>
         <h2>Oregon Lifeline Program</h2>
         <hr />
 
-          <div class="application__message">
-              <div class="application__message-left">
-                <h3 class="mt-3">Oregon Lifeline is a federal and state government program that provides a monthly discount on phone <strong>(up to $15.25)</strong> or high-speed internet service <strong>(up to $19.25)</strong> for qualifying households with low incomes through participating service providers.</h3>
+        <div class="application__message">
+          <div class="application__message-left">
+            <h3 class="mt-3">Oregon Lifeline is a federal and state government program that provides a monthly discount
+              on phone <strong>(up to $15.25)</strong> or high-speed internet service <strong>(up to $19.25)</strong>
+              for qualifying households with low incomes through participating service providers.</h3>
 
-                <h3 class="mt-5">
-                    <strong>
-                  You may qualify if you receive one of the following benefits:
-                        </strong>
-                </h3>
-                <ul class="application__list">
-                  <li class="application__item">
-                    Supplemental Nutrition Assistance Program (SNAP)
-                  </li>
-                  <li class="application__item">Medicaid</li>
-                  <li class="application__item">
-                    Supplemental Security Income (SSI)
-                  </li>
-                  <li class="application__item">Veterans or Survivors Pension</li>
-                  <li class="application__item">
-                    Federal Public Housing Assistance (Section 8)
-                  </li>
-                  <li class="application__item">
-                    Total Household Income is at or below 135% of the Federal Poverty
-                    Guidelines
-                  </li>
-                </ul>
+            <h3 class="mt-5">
+              <strong>
+                You may qualify if you receive one of the following benefits:
+              </strong>
+            </h3>
+            <ul class="application__list">
+              <li class="application__item">
+                Supplemental Nutrition Assistance Program (SNAP)
+              </li>
+              <li class="application__item">Medicaid</li>
+              <li class="application__item">
+                Supplemental Security Income (SSI)
+              </li>
+              <li class="application__item">Veterans or Survivors Pension</li>
+              <li class="application__item">
+                Federal Public Housing Assistance (Section 8)
+              </li>
+              <li class="application__item">
+                Total Household Income is at or below 135% of the Federal Poverty
+                Guidelines
+              </li>
+            </ul>
 
-                <h3 class="mt-4"><strong>Tribal Specific Programs:</strong></h3>
-                <ul class="application__list">
-                  <li class="application__item">Tribal General Assistance</li>
-                  <li class="application__item">Tribal Head Start</li>
-                  <li class="application__item">
-                    Tribal Temporary Assistance for Needy Families (TANF)
-                  </li>
-                  <li class="application__item">Tribal Food Distribution Program</li>
-                </ul>
+            <h3 class="mt-4"><strong>Tribal Specific Programs:</strong></h3>
+            <ul class="application__list">
+              <li class="application__item">Tribal General Assistance</li>
+              <li class="application__item">Tribal Head Start</li>
+              <li class="application__item">
+                Tribal Temporary Assistance for Needy Families (TANF)
+              </li>
+              <li class="application__item">Tribal Food Distribution Program</li>
+
+            </ul>
+          </div>
+          <div class="application__message-right">
+
+            <div class="application__message-right--i">
+              <div class="application__check">
+                <h1>Check For Eligibility</h1>
+
               </div>
-              <div class="application__message-right">
-                    
-                    <div class="application__message-right--i">
-                        <div class="application__check">
-                            <h1>Check For Eligibility</h1>
-                            <form @onsubmit="CheckZip" class="application__check-form">
-                                <label class="application__form-label" for="zipCode">Enter your Zip code to see avaliable providers in your area <span class="required">*</span></label>
+              <h4 class="mb-4">Questions? Contact Us:</h4>
 
-                                <InputText @bind-Value="zipCode" id="EligibilityZip" class="form-control form-control-lg application__input" placeholder="Zip Code" required />
-                                <input type="submit" name="btnSubmit" value="Check" id="btnSubmit" class="btn btn-primary">
-                            </form>
-                        </div>
-                            <h4 class="mb-4">Questions? Contact Us:</h4>
-
-                            <div class="application__contact">
-                              <p class="application__text">
-                                <strong>Phone (Monday - Friday, 9AM - 4PM):</strong>
-                                <a href="tel:18008484442" class="application__link">
-                                  1-800-848-4442
-                                </a>
-                              </p>
-                              <p class="application__text">
-                                <strong>Email:</strong>
-                                <a href="mailto:puc.rspf@puc.oregon.gov" class="application__link">puc.rspf@puc.oregon.gov</a>
-                              </p>
-                              <p class="application__text">
-                                <strong>Fax:</strong>
-                                <a href="tel:18775671977" class="application__link">
-                                  1-877-567-1977
-                                </a>
-                              </p>
-                    </div>
-
-                    </div>
-
-                  </div>
+              <div class="application__contact">
+                <p class="application__text">
+                  <strong>Phone (Monday - Friday, 9AM - 4PM):</strong>
+                  <a href="tel:18008484442" class="application__link">
+                    1-800-848-4442
+                  </a>
+                </p>
+                <p class="application__text">
+                  <strong>Email:</strong>
+                  <a href="mailto:puc.rspf@puc.oregon.gov" class="application__link">puc.rspf@puc.oregon.gov</a>
+                </p>
+                <p class="application__text">
+                  <strong>Fax:</strong>
+                  <a href="tel:18775671977" class="application__link">
+                    1-877-567-1977
+                  </a>
+                </p>
               </div>
+
+            </div>
 
           </div>
-       
+        </div>
 
-        <hr />
+      </div>
 
-          <!--
+
+      <hr />
+
+      <!--
         <h4 class="mb-4">Questions? Contact Us:</h4>
 
         <div class="application__contact">
@@ -197,7 +227,7 @@
       </div>
       <hr />
           -->
-    <!--
+      <!--
     <div class="application__check">
         <h1>Check For Eligibility</h1>
         <form @onsubmit="CheckZip">
@@ -209,265 +239,278 @@
     </div>
         -->
 
-          
-        @if (showApplicationBody)
-        {
-      <div class="application__body" id="application">
-        <div class="application__body-message">
-          <p class="application__text">
-            <span class="required">*</span> indicates required field
-          </p>
-        </div>
-        <form class="application__form" method="post">
+
+      @if (showApplicationBody)
+      {
+        <div class="application__body" id="application">
+          <div class="application__body-message">
+            <p class="application__text">
+              <span class="required">*</span> indicates required field
+            </p>
+          </div>
+          <form class="application__form" method="post">
             <h5>Applicant's Legal Name</h5>
-          <div class="form-group application__group application__group--name">
+            <div class="form-group application__group application__group--name">
 
-            <div class="application__group--name-div">
+              <div class="application__group--name-div">
                 <label class="application__form-label" for="firstName">First name <span class="required">*</span></label>
-                <input type="text" class="form-control form-control-lg application__input" id="firstName" placeholder="First name" required />
-            </div>
-               
-            <div class="application__group--name-div">
+                <input type="text" class="form-control form-control-lg application__input" id="firstName"
+                  placeholder="First name" required />
+              </div>
+
+              <div class="application__group--name-div">
                 <label class="application__form-label" for="middleName">Middle name</label>
-                <input type="text" class="form-control form-control-lg application__input" id="middleName" placeholder="Middle name" />
-            </div>
+                <input type="text" class="form-control form-control-lg application__input" id="middleName"
+                  placeholder="Middle name" />
+              </div>
 
-            <div class="application__group--name-div">
+              <div class="application__group--name-div">
                 <label class="application__form-label" for="lastName">Last name <span class="required">*</span></label>
-                <input type="text" class="form-control form-control-lg application__input" id="lastName" placeholder="Last name" required />
+                <input type="text" class="form-control form-control-lg application__input" id="lastName"
+                  placeholder="Last name" required />
+              </div>
+
             </div>
 
-          </div>
+            <div class="mt-5 form-group application__group application__group--s">
 
-          <div class="mt-5 form-group application__group application__group--s">
-
-            <div class="application__group--s-div">
+              <div class="application__group--s-div">
                 <h5>Applicant's Social Security #</h5>
-                <label class="application__form-label" for="firstName">Format: XXX-XX-XXXX <span class="required">*</span></label>
-                <input @bind="SSN" @bind:event="oninput" type="text" class="form-control form-control-lg application__input" id="ssn" inputmode="numeric" placeholder="123-45-6789" maxlength="11" required />
-            </div>
+                <label class="application__form-label" for="firstName">Format: XXX-XX-XXXX <span
+                    class="required">*</span></label>
+                <input @bind="SSN" @bind:event="oninput" type="text"
+                  class="form-control form-control-lg application__input" id="ssn" inputmode="numeric"
+                  placeholder="123-45-6789" maxlength="11" required />
+              </div>
 
-            <div class="application__group--s-div">
+              <div class="application__group--s-div">
                 <h5>Applicant's Date of Birth</h5>
-                <label class="application__form-label" for="firstName">Format: 01/01/1975 <span class="required">*</span></label>
+                <label class="application__form-label" for="firstName">Format: 01/01/1975 <span
+                    class="required">*</span></label>
                 <input type="date" class="form-control form-control-lg application__input" id="dob" required />
+              </div>
+
             </div>
 
-          </div>
-
-          <div class="mt-5 form-group application__group application__group">
-            <h5>Applicant's Service Provider</h5>
-            <label for="cboOrganization" class="application__form-label">
-              Please select a service provider:
-              <span class="required">*</span>
-            </label>
-            <select name="cboOrganization" class="application__input application__input-select" id="cboOrganization"
-              required>
-              <option value="">Select your provider</option>
-              <option value="9087">Alyrica Networks</option>
-              <option value="35">Asotin Telephone Co</option>
-              <option value="8408">AT&amp;T Mobility</option>
-              <option value="8904">Beacon Broadband</option>
-              <option value="38">
-                Beaver Creek Cooperative Telephone Co
-              </option>
-              <option value="8902">Blue Mountain Networks</option>
-              <option value="47">CenturyLink</option>
-              <option value="4">Clear Creek Mutual Telephone Co</option>
-              <option value="5">Colton Telephone Co</option>
-              <option value="3">DirectLink</option>
-              <option value="7915">Douglas Fast Net</option>
-              <option value="6">E4 Connect Inc</option>
-              <option value="8">Eagle Telephone System Inc</option>
-              <option value="7955">Farmers Mutual Telephone Company</option>
-              <option value="10">Gervais/Datavision Co-op</option>
-              <option value="39">Helix Telephone Co</option>
-              <option value="11">Home Telephone Co</option>
-              <option value="7923">
-                Hood River Electric &amp; Internet Co-op
-              </option>
-              <option value="7866">Hunter Communications</option>
-              <option value="8899">Hyak</option>
-              <option value="8009">MINET/Willamette Valley Fiber</option>
-              <option value="9068">MiWave</option>
-              <option value="42">Molalla Telephone Co</option>
-              <option value="43">Monitor Cooperative Telephone Co</option>
-              <option value="13">Monroe Telephone Co</option>
-              <option value="8168">Nehalem Telecommunications Inc</option>
-              <option value="16">North-State Telephone Co</option>
-              <option value="29">Oregon Telephone Corp</option>
-              <option value="7428">PEAK Internet</option>
-              <option value="20">Pine Telephone System Inc</option>
-              <option value="21">Pioneer Telephone Cooperative</option>
-              <option value="19">PTC</option>
-              <option value="9053">Quantum Fiber</option>
-              <option value="37">Reliance Connects</option>
-              <option value="22">Roome Telecommunications Inc</option>
-              <option value="44">Scio Mutual Telephone Assn</option>
-              <option value="24">SCTC</option>
-              <option value="8373">Snake River PCS</option>
-              <option value="8176">Spectrum</option>
-              <option value="23">St Paul Cooperative Telephone Assn</option>
-              <option value="8785">Viasat</option>
-              <option value="8502">
-                Warm Springs Telecommunications Company
-              </option>
-              <option value="8848">Ziply Fiber</option>
-            </select>
-            <p class="application__text">
-              Note: The below companies only offer the Oregon Lifeline
-              discount in select areas. Please call your company to find out
-              if they offer the Oregon Lifeline discount where you live.
-            </p>
-
-            <p class="application__text">
-              <strong>AT&T Mobility:</strong>
-              <a href="tel:18003779450" class="application__link">
-                1-800-377-9450
-              </a>
-            </p>
-            <p class="application__text">
-              <strong>Blue Mountain Networks:</strong>
-              <a href="tel:5413703000" class="application__link">
-                541-370-3000
-              </a>
-            </p>
-            <p class="application__text">
-              <strong>Spectrum:</strong>
-              <a href="tel:18009417809" class="application__link">
-                1-800-941-7809
-              </a>
-            </p>
-            <p class="application__text">
-              <strong>Viasat:</strong>
-              <a href="tel:18558517419" class="application__link">
-                1-855-851-7419
-              </a>
-            </p>
-          </div>
-          <div class="mt-5 form-group application__group application__group--mailaddress">
-            <h5>Applicant's Home Address</h5>
-            <label for="addressStreet" class="application__form-label">
-              Address <span class="required">*</span>
-            </label>
-            <input type="text" id="addressStreet" class="form-control form-control-lg application__input"
-              placeholder="Start typing an address..." autocomplete="address-line1" required />
-
-            <label for="addressStreetLine2" class="application__form-label">
-              Address Line 2
-            </label>
-            <input type="text" id="addressStreetLine2" class="form-control form-control-lg application__input"
-              placeholder="Apt / Suite / Bldg / Unit" autocomplete="address-line2" />
-
-            <label for="addressCity" class="application__form-label">
-              City <span class="required">*</span>
-            </label>
-            <input type="text" id="addressCity" class="form-control form-control-lg application__input"
-              placeholder="City" autocomplete="address-level2" required />
-
-            <div class="application__form-StateZip">
-                <div class="application__form-StateZip-i">
-                    <label for="addressState" class="application__form-label">
-                      State <span class="required">*</span>
-                    </label>
-                    <input type="text" id="addressState" class="form-control form-control-lg application__input" placeholder="State" autocomplete="address-level1" required />
-                </div>
-                <div class="application__form-StateZip-i">
-                    <label for="addressZip" class="application__form-label">
-                      Zip <span class="required">*</span>
-                    </label>
-                    <input type="text" id="addressZip" class="form-control form-control-lg application__input" placeholder="Zip Code" autocomplete="postal-code" required />
-                </div>
-            </div>
-
-            <!-- Tribal lands question -->
-            <fieldset class="mt-3">
-              <legend class="application__form-label">
-                Do you live on federally recognized Tribal lands in Oregon?
+            <div class="mt-5 form-group application__group application__group">
+              <h5>Applicant's Service Provider</h5>
+              <label for="cboOrganization" class="application__form-label">
+                Please select a service provider:
                 <span class="required">*</span>
-              </legend>
-              <div class="application__radio-group">
-                <label class="application__radio-option">
-                  <input type="radio" name="tribalLand" id="tribalLandYes" value="yes" required />
-                  Yes
-                </label>
-                <label class="application__radio-option">
-                  <input type="radio" name="tribalLand" id="tribalLandNo" value="no" required />
-                  No
-                </label>
-              </div>
-            </fieldset>
+              </label>
+              <select name="cboOrganization" class="application__input application__input-select" id="cboOrganization"
+                required>
+                <option value="">Select your provider</option>
+                <option value="9087">Alyrica Networks</option>
+                <option value="35">Asotin Telephone Co</option>
+                <option value="8408">AT&amp;T Mobility</option>
+                <option value="8904">Beacon Broadband</option>
+                <option value="38">
+                  Beaver Creek Cooperative Telephone Co
+                </option>
+                <option value="8902">Blue Mountain Networks</option>
+                <option value="47">CenturyLink</option>
+                <option value="4">Clear Creek Mutual Telephone Co</option>
+                <option value="5">Colton Telephone Co</option>
+                <option value="3">DirectLink</option>
+                <option value="7915">Douglas Fast Net</option>
+                <option value="6">E4 Connect Inc</option>
+                <option value="8">Eagle Telephone System Inc</option>
+                <option value="7955">Farmers Mutual Telephone Company</option>
+                <option value="10">Gervais/Datavision Co-op</option>
+                <option value="39">Helix Telephone Co</option>
+                <option value="11">Home Telephone Co</option>
+                <option value="7923">
+                  Hood River Electric &amp; Internet Co-op
+                </option>
+                <option value="7866">Hunter Communications</option>
+                <option value="8899">Hyak</option>
+                <option value="8009">MINET/Willamette Valley Fiber</option>
+                <option value="9068">MiWave</option>
+                <option value="42">Molalla Telephone Co</option>
+                <option value="43">Monitor Cooperative Telephone Co</option>
+                <option value="13">Monroe Telephone Co</option>
+                <option value="8168">Nehalem Telecommunications Inc</option>
+                <option value="16">North-State Telephone Co</option>
+                <option value="29">Oregon Telephone Corp</option>
+                <option value="7428">PEAK Internet</option>
+                <option value="20">Pine Telephone System Inc</option>
+                <option value="21">Pioneer Telephone Cooperative</option>
+                <option value="19">PTC</option>
+                <option value="9053">Quantum Fiber</option>
+                <option value="37">Reliance Connects</option>
+                <option value="22">Roome Telecommunications Inc</option>
+                <option value="44">Scio Mutual Telephone Assn</option>
+                <option value="24">SCTC</option>
+                <option value="8373">Snake River PCS</option>
+                <option value="8176">Spectrum</option>
+                <option value="23">St Paul Cooperative Telephone Assn</option>
+                <option value="8785">Viasat</option>
+                <option value="8502">
+                  Warm Springs Telecommunications Company
+                </option>
+                <option value="8848">Ziply Fiber</option>
+              </select>
+              <p class="application__text">
+                Note: The below companies only offer the Oregon Lifeline
+                discount in select areas. Please call your company to find out
+                if they offer the Oregon Lifeline discount where you live.
+              </p>
 
-            <!-- Temporary address question -->
-            <fieldset class="mt-4 mb-4">
-              <legend class="application__form-label">
-                Is this a temporary address?
-              </legend>
-              <div class="application__radio-group">
-                <label class="application__radio-option">
-                  <input type="radio" name="temporaryAddress" id="temporaryYes" value="yes" />
-                  Yes
-                </label>
-                <label class="application__radio-option">
-                  <input type="radio" name="temporaryAddress" id="temporaryNo" value="no" />
-                  No
-                </label>
-              </div>
-            </fieldset>
+              <p class="application__text">
+                <strong>AT&T Mobility:</strong>
+                <a href="tel:18003779450" class="application__link">
+                  1-800-377-9450
+                </a>
+              </p>
+              <p class="application__text">
+                <strong>Blue Mountain Networks:</strong>
+                <a href="tel:5413703000" class="application__link">
+                  541-370-3000
+                </a>
+              </p>
+              <p class="application__text">
+                <strong>Spectrum:</strong>
+                <a href="tel:18009417809" class="application__link">
+                  1-800-941-7809
+                </a>
+              </p>
+              <p class="application__text">
+                <strong>Viasat:</strong>
+                <a href="tel:18558517419" class="application__link">
+                  1-855-851-7419
+                </a>
+              </p>
+            </div>
+            <div class="mt-5 form-group application__group application__group--mailaddress">
+              <h5>Applicant's Home Address</h5>
+              <label for="addressStreet" class="application__form-label">
+                Address <span class="required">*</span>
+              </label>
+              <input type="text" id="addressStreet" class="form-control form-control-lg application__input"
+                placeholder="Start typing an address..." autocomplete="address-line1" required />
 
-            <label class="application__input-check--label" for="sameAsHomeAddress">
-              <input type="checkbox" id="sameAsHomeAddress" class="application__input-check" @bind="SameAsHomeAddress" @bind:after="() => OnMailingAddressToggleChanged()" />
-              My mailing address is the same as my residential address
-            </label>
-          </div>
-                
+              <label for="addressStreetLine2" class="application__form-label">
+                Address Line 2
+              </label>
+              <input type="text" id="addressStreetLine2" class="form-control form-control-lg application__input"
+                placeholder="Apt / Suite / Bldg / Unit" autocomplete="address-line2" />
 
+              <label for="addressCity" class="application__form-label">
+                City <span class="required">*</span>
+              </label>
+              <input type="text" id="addressCity" class="form-control form-control-lg application__input"
+                placeholder="City" autocomplete="address-level2" required />
 
-              <div class="mt-5 form-group application__group application__group--mailaddress" style="@(SameAsHomeAddress ? "display:none;" : "display:block;")">
-                <div id="mailingAddressFields">
-                  <h5>Applicant's Mailing Address</h5>
-              
-
-                  <label for="mailingAddressStreet" class="application__form-label">
-                    Address 
+              <div class="application__form-StateZip">
+                <div class="application__form-StateZip-i">
+                  <label for="addressState" class="application__form-label">
+                    State <span class="required">*</span>
                   </label>
-                  <input type="text" id="mailingAddressStreet" class="form-control form-control-lg application__input"
-                    placeholder="Start typing an address..." autocomplete="address-line1"  />
-
-                  <label for="mailingAddressStreetLine2" class="application__form-label">
-                    Address Line 2
+                  <input type="text" id="addressState" class="form-control form-control-lg application__input"
+                    placeholder="State" autocomplete="address-level1" required />
+                </div>
+                <div class="application__form-StateZip-i">
+                  <label for="addressZip" class="application__form-label">
+                    Zip <span class="required">*</span>
                   </label>
-                  <input type="text" id="mailingAddressStreetLine2" class="form-control form-control-lg application__input"
-                    placeholder="Apt / Suite / Bldg / Unit" autocomplete="address-line2" />
-
-                  <label for="mailingAddressCity" class="application__form-label">
-                    City 
-                  </label>
-                  <input type="text" id="mailingAddressCity" class="form-control form-control-lg application__input"
-                    placeholder="City" autocomplete="address-level2"  />
-
-                    <div class="application__form-StateZip">
-                        <div class="application__form-StateZip-i">
-                          <label for="mailingAddressState" class="application__form-label">
-                            State 
-                          </label>
-                          <input type="text" id="mailingAddressState" class="form-control form-control-lg application__input" placeholder="State" autocomplete="address-level1"  />
-                        </div>
-                        <div class="application__form-StateZip-i">
-                          <label for="mailingAddressZip" class="application__form-label">
-                            Zip 
-                          </label>
-                          <input type="text" id="mailingAddressZip" class="form-control form-control-lg application__input" placeholder="Zip Code" autocomplete="postal-code"  />
-                        </div>
-                    </div>
-
+                  <input type="text" id="addressZip" class="form-control form-control-lg application__input"
+                    placeholder="Zip Code" autocomplete="postal-code" required />
                 </div>
               </div>
-            
+
+              <!-- Tribal lands question -->
+              <fieldset class="mt-3">
+                <legend class="application__form-label">
+                  Do you live on federally recognized Tribal lands in Oregon?
+                  <span class="required">*</span>
+                </legend>
+                <div class="application__radio-group">
+                  <label class="application__radio-option">
+                    <input type="radio" name="tribalLand" id="tribalLandYes" value="yes" required />
+                    Yes
+                  </label>
+                  <label class="application__radio-option">
+                    <input type="radio" name="tribalLand" id="tribalLandNo" value="no" required />
+                    No
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Temporary address question -->
+              <fieldset class="mt-4 mb-4">
+                <legend class="application__form-label">
+                  Is this a temporary address?
+                </legend>
+                <div class="application__radio-group">
+                  <label class="application__radio-option">
+                    <input type="radio" name="temporaryAddress" id="temporaryYes" value="yes" />
+                    Yes
+                  </label>
+                  <label class="application__radio-option">
+                    <input type="radio" name="temporaryAddress" id="temporaryNo" value="no" />
+                    No
+                  </label>
+                </div>
+              </fieldset>
+
+              <label class="application__input-check--label" for="sameAsHomeAddress">
+                <input type="checkbox" id="sameAsHomeAddress" class="application__input-check" @bind="SameAsHomeAddress"
+                  @bind:after="() => OnMailingAddressToggleChanged()" />
+                My mailing address is the same as my residential address
+              </label>
+            </div>
+
+
+
+            <div class="mt-5 form-group application__group application__group--mailaddress"
+              style="@(SameAsHomeAddress ? "display:none;" : "display:block;")">
+              <div id="mailingAddressFields">
+                <h5>Applicant's Mailing Address</h5>
+
+
+                <label for="mailingAddressStreet" class="application__form-label">
+                  Address
+                </label>
+                <input type="text" id="mailingAddressStreet" class="form-control form-control-lg application__input"
+                  placeholder="Start typing an address..." autocomplete="address-line1" />
+
+                <label for="mailingAddressStreetLine2" class="application__form-label">
+                  Address Line 2
+                </label>
+                <input type="text" id="mailingAddressStreetLine2" class="form-control form-control-lg application__input"
+                  placeholder="Apt / Suite / Bldg / Unit" autocomplete="address-line2" />
+
+                <label for="mailingAddressCity" class="application__form-label">
+                  City
+                </label>
+                <input type="text" id="mailingAddressCity" class="form-control form-control-lg application__input"
+                  placeholder="City" autocomplete="address-level2" />
+
+                <div class="application__form-StateZip">
+                  <div class="application__form-StateZip-i">
+                    <label for="mailingAddressState" class="application__form-label">
+                      State
+                    </label>
+                    <input type="text" id="mailingAddressState" class="form-control form-control-lg application__input"
+                      placeholder="State" autocomplete="address-level1" />
+                  </div>
+                  <div class="application__form-StateZip-i">
+                    <label for="mailingAddressZip" class="application__form-label">
+                      Zip
+                    </label>
+                    <input type="text" id="mailingAddressZip" class="form-control form-control-lg application__input"
+                      placeholder="Zip Code" autocomplete="postal-code" />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
 
             <h5>Applicant’s Phone Information</h5>
-          <div class="mt-2 mb-4 form-group application__group application__group--phoneinfo">
-            
+            <div class="mt-2 mb-4 form-group application__group application__group--phoneinfo">
+
               <div class="application__group--phoneinfo-i">
                 <!-- Applicant's Phone or Broadband Account Number -->
                 <label for="applicantPhone" class="application__form-label">
@@ -477,7 +520,8 @@
                 <small class="text-muted d-block mb-2 application__form-small">
                   Format: 123-123-1234
                 </small>
-                <input type="text" id="applicantPhone" class="form-control form-control-lg application__input" inputmode="numeric" placeholder="123-123-1234" maxlength="12" required />
+                <input type="text" id="applicantPhone" class="form-control form-control-lg application__input"
+                  inputmode="numeric" placeholder="123-123-1234" maxlength="12" required />
                 <small class="text-muted d-block mt-1 application__form-small">
                   If your account number has fewer than 10 digits, zeros will be
                   added automatically after submission.
@@ -492,256 +536,244 @@
                 <small class="text-muted d-block mb-2 application__form-small">
                   Format: 123-123-1234
                 </small>
-                <input type="text" id="contactPhone" class="form-control form-control-lg application__input" inputmode="numeric" placeholder="123-123-1234" maxlength="12" />
+                <input type="text" id="contactPhone" class="form-control form-control-lg application__input"
+                  inputmode="numeric" placeholder="123-123-1234" maxlength="12" />
               </div>
-          </div>
+            </div>
 
 
-           <h5>Applicant’s Email Address</h5>
-          <div class="form-group application__group application__group--emailinfo">
+            <h5>Applicant’s Email Address</h5>
+            <div class="form-group application__group application__group--emailinfo">
 
               <div class="application__group--emailinfo-i">
                 <label for="email" class="application__form-label">
                   Email Address <span class="required">*</span>
                 </label>
                 <small class="text-muted d-block mb-2 application__form-small">Format: john.doe@gmail.com</small>
-                <input type="email" id="email" name="email" class="form-control form-control-lg application__input" placeholder="username@host.domain" maxlength="100" required />
+                <input type="email" id="email" name="email" class="form-control form-control-lg application__input"
+                  placeholder="username@host.domain" maxlength="100" required />
               </div>
               <div class="application__group--emailinfo-i">
-            <label for="confirmEmail" class="application__form-label">
-              Re-enter Email Address <span class="required">*</span>
-            </label>
-            <input type="email" id="confirmEmail" name="confirmEmail"
-              class="form-control form-control-lg application__input" placeholder="Re-enter your email address" maxlength="100" required />
+                <label for="confirmEmail" class="application__form-label">
+                  Re-enter Email Address <span class="required">*</span>
+                </label>
+                <input type="email" id="confirmEmail" name="confirmEmail"
+                  class="form-control form-control-lg application__input" placeholder="Re-enter your email address"
+                  maxlength="100" required />
               </div>
-          </div>
-          <div class="mt-5 form-group application__group application__group--qualification">
-            <h5>Program Qualification</h5>
-            <label for="qualificationProgram" class="application__form-label">
-              How does the applicant qualify for Oregon Lifeline?
-              <span class="required">*</span>
-            </label>
-            <select id="qualificationProgram" name="qualificationProgram"
-              class="form-control form-control-lg application__input application__input-select" @bind="QualificationProgram" required>
-              <option value="">Select one</option>
-              <option value="SNAP">
-                Supplemental Nutrition Assistance Program (SNAP) — No
-                Documentation Required
-              </option>
-              <option value="Medicaid">
-                Medicaid — No Documentation Required
-              </option>
-              <option value="SSI">
-                Supplemental Security Income (SSI) — Documentation Required
-              </option>
-              <option value="Housing">
-                Federal Public Housing Assistance (Section 8) — Documentation
-                Required
-              </option>
-              <option value="Veterans">
-                Veterans or Survivors Pension — Documentation Required
-              </option>
-              <option value="Income">
-                Total Household Income ≤ 135% of Federal Poverty Guidelines —
-                Documentation Required
-              </option>
-              <option value="TribalGeneral">
-                Tribal General Assistance — Documentation Required
-              </option>
-              <option value="TribalHeadStart">
-                Tribal Head Start — Documentation Required
-              </option>
-              <option value="TribalTANF">
-                Tribal TANF — Documentation Required
-              </option>
-              <option value="TribalFood">
-                Tribal Food Distribution Program — Documentation Required
-              </option>
-            </select>
-              <!--
-            <p class="application__note mt-3 application__text">
-              <strong>Note:</strong> Send
-              <a href="https://www.oregon.gov/puc/Documents/Lifeline-Documentation.pdf" target="_blank" rel="noopener">
-                acceptable documentation
-              </a>
-              to OPUC within 30 days of submitting this application.
-            </p>
-              -->
-          </div>
+            </div>
+            <div class="mt-5 form-group application__group application__group--qualification">
+              <h5>Program Qualification</h5>
+              <label for="qualificationProgram" class="application__form-label">
+                How does the applicant qualify for Oregon Lifeline?
+                <span class="required">*</span>
+              </label>
+              <select id="qualificationProgram" name="qualificationProgram"
+                class="form-control form-control-lg application__input application__input-select"
+                @bind="QualificationProgram" required>
+                <option value="">Select one</option>
+                <option value="SNAP">
+                  Supplemental Nutrition Assistance Program (SNAP) — No
+                  Documentation Required
+                </option>
+                <option value="Medicaid">
+                  Medicaid — No Documentation Required
+                </option>
+                <option value="SSI">
+                  Supplemental Security Income (SSI) — Documentation Required
+                </option>
+                <option value="Housing">
+                  Federal Public Housing Assistance (Section 8) — Documentation
+                  Required
+                </option>
+                <option value="Veterans">
+                  Veterans or Survivors Pension — Documentation Required
+                </option>
+                <option value="Income">
+                  Total Household Income ≤ 135% of Federal Poverty Guidelines —
+                  Documentation Required
+                </option>
+                <option value="TribalGeneral">
+                  Tribal General Assistance — Documentation Required
+                </option>
+                <option value="TribalHeadStart">
+                  Tribal Head Start — Documentation Required
+                </option>
+                <option value="TribalTANF">
+                  Tribal TANF — Documentation Required
+                </option>
+                <option value="TribalFood">
+                  Tribal Food Distribution Program — Documentation Required
+                </option>
+              </select>
 
-          <div class="application__contact mt-2">
-              <!--
-            <p class="application__contact-item application__text">
-              <strong>Fax:</strong> 1-877-567-1977
-            </p>
-            <p class="application__contact-item application__text">
-              <strong>Email:</strong>
-              <a href="mailto:puc.rspf@puc.oregon.gov">puc.rspf@puc.oregon.gov</a>
-            </p>
-            <p class="application__contact-item application__text">
-              <strong>Mail:</strong> P.O. Box 1088, Salem, OR 97308-1088
-            </p>
-              -->
-              
-           </div>
-             
+            </div>
+
+            <div class="application__contact mt-2">
+
+            </div>
+
 
             <!-- Income section (hidden by default) -->
-             @if (QualificationProgram == "Income")
-             {
-              
-                <div id="incomeSection" class="form-section">
-                  <p class="form-note application__text">
-                    Since you qualify by income, please indicate the total number of
-                    household members (including applicant) with whom the applicant shares income
-                    and expenses. If the applicant is the only member of the household, please
-                    enter <strong>1</strong>.
-                  </p>
-                  <label for="txtNumberOfPeople" class="form-label application__form-label">
-                    Number of household members: <span class="required">*</span>
-                  </label>
-                  <input type="number" id="txtNumberOfPeople" name="txtNumberOfPeople" min="1" max="9"
-                    class="form-input application__input" placeholder="1" required />
-                </div>
-
-                           <figure class="upload mt-5">
-                   <h5>Please upload documentation <span class="required">*</span></h5>
-                   <div class="upload__wrapper">
-                       <label class="upload__label">
-                           <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                           <span>@(SelectedFileName ?? "Upload Documentation")</span>
-                           <InputFile name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf, .doc, .docx" required/>
-                           <!--
-                           <input class="upload__input" type="file" id="fileInput" name="uploadFile" accept=".pdf, .doc, .docx" required/>
-                           -->
-                       </label>
-                   </div>
-                   
-               </figure> 
-
-             }
-             
-
-              <!-- If user selects a qualification that requires uploading documentation, this shows -->
-            @if (QualificationProgram == "SSI" ||
-                 QualificationProgram == "Housing" ||
-                 QualificationProgram == "Veterans" ||
-                 QualificationProgram == "TribalGeneral" ||
-                 QualificationProgram == "TribalHeadStart" ||
-                 QualificationProgram == "TribalTANF" ||
-                 QualificationProgram == "TribalFood")
+            @if (QualificationProgram == "Income")
             {
 
-                <figure class="upload mt-5">
-                    <h5>Please upload documentation <span class="required">*</span></h5>
-                    <div class="upload__wrapper">
-                        <label class="upload__label">
-                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                            <span>@(SelectedFileName ?? "Upload Documentation")</span>
-                            <InputFile name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf, .doc, .docx" required/>
-                            <!--
-                            <input class="upload__input" type="file" id="fileInput" name="uploadFile" accept=".pdf, .doc, .docx" required/>
-                            -->
-                        </label>
-                    </div>
-                    
-                </figure> 
-                
+              <div id="incomeSection" class="form-section">
+                <p class="form-note application__text">
+                  Since you qualify by income, please indicate the total number of
+                  household members (including applicant) with whom the applicant shares income
+                  and expenses. If the applicant is the only member of the household, please
+                  enter <strong>1</strong>.
+                </p>
+                <label for="txtNumberOfPeople" class="form-label application__form-label">
+                  Number of household members: <span class="required">*</span>
+                </label>
+                <input type="number" id="txtNumberOfPeople" name="txtNumberOfPeople" min="1" max="9"
+                  class="form-input application__input" placeholder="1" required />
+              </div>
+
+              <figure class="upload mt-5">
+                <h5>Please upload documentation <span class="required">*</span></h5>
+                <div class="upload__wrapper">
+                  <label class="upload__label">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    <span>@(SelectedFileName ?? "Upload Documentation")</span>
+                    <InputFile name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf, .doc, .docx"
+                      required />
+                  </label>
+                </div>
+
+              </figure>
+
             }
-          
-              
-          <div class="mt-5 mb-5 form-group application__group application__group--agree">
-            <h5>Please read and check each rule to indicate that you understand and agree: <span
-                class="required">*</span></h5>
-          </div>
-          <div class="terms-grid">
-            <div class="application__term">
-              <input type="text" id="understanding1" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding1" class="application__term-label">
-                I understand that if I am approved as eligible, it may take 30–60 days for my service provider to
-                apply the Oregon Lifeline benefit to my account.
-              </label>
+
+
+            <!-- If user selects a qualification that requires uploading documentation, this shows -->
+            @if (QualificationProgram == "SSI" ||
+                      QualificationProgram == "Housing" ||
+                      QualificationProgram == "Veterans" ||
+                      QualificationProgram == "TribalGeneral" ||
+                      QualificationProgram == "TribalHeadStart" ||
+                      QualificationProgram == "TribalTANF" ||
+                      QualificationProgram == "TribalFood")
+            {
+
+              <figure class="upload mt-5">
+                <h5>Please upload documentation <span class="required">*</span></h5>
+                <div class="upload__wrapper">
+                  <label class="upload__label">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    <span>@(SelectedFileName ?? "Upload Documentation")</span>
+                    <InputFile name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf, .doc, .docx"
+                      required />
+                  </label>
+                </div>
+
+              </figure>
+
+            }
+
+
+            <div class="mt-5 mb-5 form-group application__group application__group--agree">
+              <h5>Please read and check each rule to indicate that you understand and agree: <span
+                  class="required">*</span></h5>
             </div>
-            <div class="application__term ">
-              <input type="text" id="understanding2" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding2" class="application__term-label">
-                I give the Oregon Public Utility Commission (OPUC), the Federal Communications Commission, and the
-                Universal Service Administrative Company authority to review any records needed to confirm my
-                eligibility.
-              </label>
-            </div>
-            <div class="application__term">
-              <input type="text" id="understanding3" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding3" class="application__term-label">
-                I understand that my household can only get one Lifeline benefit.
-              </label>
-            </div>
-            <div class="application__term">
-              <input type="text" id="understanding4" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding4" class="application__term-label">
-                I understand that if I violate the one-per-household rule, I will be de-enrolled from the Oregon
-                Lifeline program.
-              </label>
-            </div>
-            <div class="application__term application__term-list">
+            <div class="terms-grid">
               <div class="application__term">
-                <input type="text" id="understanding5" class="initial-input application__term-check" maxlength="2" required />
-                <label for="understanding5" class="application__term-label">
-                  I agree to notify the PUC within 30 days if:
+                <input type="text" id="understanding1" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding1" class="application__term-label">
+                  I understand that if I am approved as eligible, it may take 30–60 days for my service provider to
+                  apply the Oregon Lifeline benefit to my account.
+                </label>
+              </div>
+              <div class="application__term ">
+                <input type="text" id="understanding2" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding2" class="application__term-label">
+                  I give the Oregon Public Utility Commission (OPUC), the Federal Communications Commission, and the
+                  Universal Service Administrative Company authority to review any records needed to confirm my
+                  eligibility.
+                </label>
+              </div>
+              <div class="application__term">
+                <input type="text" id="understanding3" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding3" class="application__term-label">
+                  I understand that my household can only get one Lifeline benefit.
+                </label>
+              </div>
+              <div class="application__term">
+                <input type="text" id="understanding4" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding4" class="application__term-label">
+                  I understand that if I violate the one-per-household rule, I will be de-enrolled from the Oregon
+                  Lifeline program.
+                </label>
+              </div>
+              <div class="application__term application__term-list">
+                <div class="application__term">
+                  <input type="text" id="understanding5" class="initial-input application__term-check" maxlength="2"
+                    required />
+                  <label for="understanding5" class="application__term-label">
+                    I agree to notify the PUC within 30 days if:
+                  </label>
+                </div>
+
+                <ul class="application__list">
+
+                  <li class="application__item">I move.</li>
+                  <li class="application__item">I disconnect service.</li>
+                  <li class="application__item">I no longer qualify for the Oregon Lifeline benefit.</li>
+                  <li class="application__item">I receive more than one Oregon Lifeline benefit.</li>
+                  <li class="application__item">Another member of my household is also receiving the Oregon Lifeline
+                    benefit.</li>
+                </ul>
+              </div>
+
+              <div class="application__term">
+                <input type="text" id="understanding6" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding6" class="application__term-label">
+                  I understand that my Oregon Lifeline benefit may not be transferred or given to any other person.
                 </label>
               </div>
 
-              <ul class="application__list">
-                
-                <li class="application__item">I move.</li>
-                <li class="application__item">I disconnect service.</li>
-                <li class="application__item">I no longer qualify for the Oregon Lifeline benefit.</li>
-                <li class="application__item">I receive more than one Oregon Lifeline benefit.</li>
-                <li class="application__item">Another member of my household is also receiving the Oregon Lifeline
-                  benefit.</li>
-              </ul>
+              <div class="application__term">
+                <input type="text" id="understanding7" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding7" class="application__term-label">
+                  I understand that I may be required to recertify my eligibility at any time and that failure to do so
+                  will stop my benefit.
+                </label>
+              </div>
+
+              <div class="application__term">
+                <input type="text" id="understanding8" class="initial-input application__term-check" maxlength="2"
+                  required />
+                <label for="understanding8" class="application__term-label">
+                  I understand that providing false information to obtain this benefit is punishable by law and may
+                  result in fines, imprisonment, or permanent disqualification.
+                </label>
+              </div>
+              <h5>By submitting this application I certify under penalty of perjury that the information contained in
+                this application is true and correct and that I meet the eligibility criteria for the Oregon Lifeline
+                benefit.</h5>
             </div>
 
-            <div class="application__term">
-              <input type="text" id="understanding6" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding6" class="application__term-label">
-                I understand that my Oregon Lifeline benefit may not be transferred or given to any other person.
-              </label>
-            </div>
+            <input type="submit" name="btnSubmit" value="Submit Application" id="btnSubmit" class="btn btn-primary">
 
-            <div class="application__term">
-              <input type="text" id="understanding7" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding7" class="application__term-label">
-                I understand that I may be required to recertify my eligibility at any time and that failure to do so
-                will stop my benefit.
-              </label>
-            </div>
+          </form>
 
-            <div class="application__term">
-              <input type="text" id="understanding8" class="initial-input application__term-check" maxlength="2" required />
-              <label for="understanding8" class="application__term-label">
-                I understand that providing false information to obtain this benefit is punishable by law and may
-                result in fines, imprisonment, or permanent disqualification.
-              </label>
-            </div>
-            <h5>By submitting this application I certify under penalty of perjury that the information contained in
-              this application is true and correct and that I meet the eligibility criteria for the Oregon Lifeline
-              benefit.</h5>
-          </div>
 
-          <input type="submit" name="btnSubmit" value="Submit Application" id="btnSubmit" class="btn btn-primary">
 
-        </form>
-
-          
-
-      </div>
-        }
+        </div>
+      }
     </section>
     <hr>
 
-      <!-- Hide for now -->
-      <!--
+    <!-- Hide for now -->
+    <!--
     <footer class="footer">
 
       <div class="footer__about">
@@ -815,16 +847,16 @@
 
   <script src="https://kit.fontawesome.com/3917f229ac.js" crossorigin="anonymous"></script>
 
-              <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,af,ar,zh-CN,zh-TW,hmn,ja,ru,so,es,vi',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-          }, 'google_translate_element');
-        }
-      </script>
-    
-      <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,af,ar,zh-CN,zh-TW,hmn,ja,ru,so,es,vi',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </div>

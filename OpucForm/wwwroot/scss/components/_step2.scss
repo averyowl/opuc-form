@@ -1,0 +1,34 @@
+.step2 {
+    width: 100%;
+    padding: 1rem 1.6rem;
+    background-color: $color-white;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+    &__h {
+        color: $color-green-opuc;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    &__p {
+        margin: 0;
+    }
+
+    &__check {
+
+        
+
+        &--input {
+
+        }
+
+        &--label {
+            font-size: 1.5rem;
+        }
+    }
+}

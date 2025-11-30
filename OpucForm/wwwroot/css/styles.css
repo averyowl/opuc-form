@@ -121,12 +121,23 @@ h6 {
   width: 100%;
   font-size: 1.45rem;
   padding: 1.25rem 0;
+  font-weight: 600;
   background-color: #487B00;
   border-color: #2e6da4;
 }
 
 .btn-primary:disabled {
   background-color: lightgrey;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: #01569b;
+  border: 1px solid #01569b;
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.45rem;
+  padding: 1.25rem 0;
 }
 
 .pindicator {
@@ -185,7 +196,6 @@ h6 {
   background-color: #fff;
   border-radius: 100%;
   color: #444;
-  cursor: pointer;
   font-size: 1.5rem;
   display: inline-block;
   height: 2em;
@@ -227,6 +237,28 @@ h6 {
   padding: 0 3rem;
 }
 
+.step2 {
+  width: 100%;
+  padding: 1rem 1.6rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+.step2__h {
+  color: #487B00;
+  font-weight: 600;
+  margin: 0;
+}
+.step2__p {
+  margin: 0;
+}
+.step2__check--label {
+  font-size: 1.5rem;
+}
+
 .upload {
   width: 100%;
 }
@@ -239,10 +271,10 @@ h6 {
   gap: 0.5rem;
   padding: 1rem 1.25rem;
   background-color: #f9f9f9;
-  border: 2px solid #337ab7;
+  border: 2px solid #487B00;
   border-radius: 8px;
   cursor: pointer;
-  color: #337ab7;
+  color: #487B00;
   font-size: 1.5rem;
   font-weight: 600;
   transition: background 0.2s ease;
@@ -461,6 +493,46 @@ i {
     border-radius: 2rem;
     border: 1px solid #ccc;
   }
+}
+.application__check-dropdown--link {
+  text-decoration: none;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.35rem 1.55rem;
+  border-radius: 0.85rem;
+  border: 1px solid #ccc;
+}
+.application__check-dropdown--list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.application__check-dropdown--item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.application__check-dropdown--apply {
+  display: flex;
+  align-items: center;
+}
+.application__check-dropdown--text {
+  color: #222121;
+  font-size: 1.7rem;
+  margin: 0;
+}
+.application__check-dropdown--subtext {
+  color: #487B00;
+  margin: 0;
+  font-size: 1.35rem;
+  margin-right: 6px;
+}
+.application__check-dropdown--icon {
+  color: #487B00;
 }
 .application__check-form {
   width: 100%;

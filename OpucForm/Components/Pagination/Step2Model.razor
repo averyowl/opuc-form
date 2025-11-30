@@ -1,16 +1,232 @@
-<h3>Step 2 - add content here</h3>
-
-<div class="application__check">
-    <h1>Check For Eligibility</h1>
-
-    <form class="application__check-form"> 
-        <label class="application__form-label" for="zipCode">Enter your Zip code to see avaliable providers in your area <span class="required">*</span></label>
-            <!--
-            <InputText @bind-Value="zipCode" id="EligibilityZip" class="form-control form-control-lg application__input" placeholder="Zip Code" required />
-                                  
-            <InputText id="EligibilityZip" class="form-control form-control-lg application__input" placeholder="Zip Code" required />
-            -->
-                               
-            <input type="submit" name="btnSubmit" value="Check" id="btnSubmit" class="btn btn-primary">
-    </form>
+<h1>Service Account Information</h1>
+<div class="step2 mt-4">
+    <h3 class="step2__h">Selected Service Provider:</h3>
+    <p class="step2__p application__text"><strong>@SelectedProvider</strong></p>
 </div>
+
+<div class="application__group--phoneinfo-i mt-5">
+    <!-- Applicant's Phone or Broadband Account Number -->
+    <label for="applicantPhone" class="application__form-label">
+        A phone number or internet service account number is required to receive the Oregon Lifeline benefit.
+        <span class="required">*</span>
+    </label>
+
+    <small class="text-muted d-block mb-2 application__form-small">
+        Format: 123-123-1234
+    </small>
+
+    <input type="text" id="applicantPhone" class="form-control form-control-lg application__input" inputmode="numeric"
+        placeholder="123-123-1234" maxlength="12" required />
+
+    <small class="text-muted d-block mt-1 application__form-small">
+        <strong>Note: </strong>If your account number has fewer than 10 digits, zeros will be added automatically after
+        submission.
+    </small>
+</div>
+
+<hr />
+
+<div class="application__group--phoneinfo-i mt-5 mb-5">
+    <h2><strong>Do you qualify for Lifeline through your child or a dependant?</strong></h2>
+    <p class="application__text">If you are not eligible for Lifeline, you may apply through your child or dependent who
+        participates in a qualifying program. <span class="required">*</span></p>
+
+    <fieldset class="mt-3">
+        <div class="application__radio-group">
+            <label class="application__radio-option">
+                <input type="radio" name="applicantType" id="childOrDependant" value="yes"
+                    @onchange="() => OnChildDepChange(true)" required />
+                Yes, through my child or dependant.
+            </label>
+            <label class="application__radio-option">
+                <input type="radio" name="applicantType" id="myself" value="no"
+                    @onchange="() => OnChildDepChange(false)" required />
+                No, myself.
+            </label>
+        </div>
+    </fieldset>
+
+</div>
+
+<hr />
+
+@if (showChildDepSection)
+{
+    <!-- ONLY show if applicant selects "Yes, through my child or dependant." ABOVE. -->
+    <div class="application__group--phoneinfo-i mt-5 mb-5">
+        <h2><strong>Fill out your child or dependants information</strong></h2>
+        <div class="application__group--name-div mb-3">
+            <label class="application__form-label" for="firstName"><strong>First Name</strong> <span
+                    class="required">*</span></label>
+            <input type="text" class="form-control form-control-lg application__input" id="firstName"
+                placeholder="First name" required />
+        </div>
+
+        <div class="application__group--name-div mb-3">
+            <label class="application__form-label" for="middleName"><strong>Middle Name</strong> (optional)</label>
+            <input type="text" class="form-control form-control-lg application__input" id="middleName"
+                placeholder="Middle name" />
+        </div>
+
+        <div class="application__group--name-div">
+            <label class="application__form-label" for="lastName"><strong>Last Name</strong> <span
+                    class="required">*</span></label>
+            <input type="text" class="form-control form-control-lg application__input" id="lastName" placeholder="Last name"
+                required />
+
+        </div>
+    </div>
+    <hr />
+
+    <div class="application__group--phoneinfo-i mt-5 mb-5">
+        <h2><strong>Date of Birth</strong></h2>
+
+        <label class="application__form-label" for="firstName">Format: 01/01/1975 <span class="required">*</span></label>
+        <input type="date" class="form-control form-control-lg application__input" id="dob" min="1900-01-01"
+            max="2025-11-27" required />
+
+    </div>
+
+
+    <div class="application__group--phoneinfo-i mt-5 mb-5">
+        <h2><strong>Social Security #</strong></h2>
+        <p class="application__text">Enter the last 4 digits of their Social Security Number.</p>
+
+        <label class="application__form-label" for="firstName">Last 4 digits of their SSN <span
+                class="required">*</span></label>
+        <input @bind="SSN" type="@InputType" class="form-control form-control-lg application__input" id="ssn"
+            inputmode="numeric" placeholder="0000" maxlength="4" required />
+
+        <div class="step2__check form-check mt-2">
+            <input class="step2__check--input form-check-input" type="checkbox" id="showSSN" @bind="ShowSSN" />
+
+            <label class="step2__check--label form-check-label" for="showSSN">
+                Show SSN
+            </label>
+        </div>
+
+    </div>
+    <hr />
+}
+
+
+<!-- ALWAYS SHOW. -->
+
+<div class="application__group--phoneinfo-i mt-5 mb-5">
+    <h2><strong>Program Qualification</strong></h2>
+    <p class="application__text">If you are applying for Oregon Lifeline on the basis of Federal Public Housing
+        Assitance (Section 8), Veterans or Survivors Pension benefits, or any of the tribal benefits, you must submit
+        valid documentation.</p>
+    <h2><strong>How Does the Applicant Quality for Oregon Lifeline?</strong></h2>
+
+    <select id="qualificationProgram" name="qualificationProgram"
+        class="form-control form-control-lg application__input application__input-select" @bind="QualificationProgram"
+        required>
+        <option value="">Select one</option>
+        <option value="SNAP">
+            Supplemental Nutrition Assistance Program (SNAP) — No
+            Documentation Required
+        </option>
+        <option value="Medicaid">
+            Medicaid — No Documentation Required
+        </option>
+        <option value="SSI">
+            Supplemental Security Income (SSI) — Documentation Required
+        </option>
+        <option value="Housing">
+            Federal Public Housing Assistance (Section 8) — Documentation
+            Required
+        </option>
+        <option value="Veterans">
+            Veterans or Survivors Pension — Documentation Required
+        </option>
+        <option value="Income">
+            Total Household Income ≤ 135% of Federal Poverty Guidelines —
+            Documentation Required
+        </option>
+        <option value="TribalGeneral">
+            Tribal General Assistance — Documentation Required
+        </option>
+        <option value="TribalHeadStart">
+            Tribal Head Start — Documentation Required
+        </option>
+        <option value="TribalTANF">
+            Tribal TANF — Documentation Required
+        </option>
+        <option value="TribalFood">
+            Tribal Food Distribution Program — Documentation Required
+        </option>
+    </select>
+
+    @if (QualificationProgram == "Income")
+    {
+
+        <div id="incomeSection" class="form-section">
+            <p class="form-note application__text">
+                Since you qualify by income, please indicate the total number of
+                household members (including applicant) with whom the applicant shares income
+                and expenses. If the applicant is the only member of the household, please
+                enter <strong>1</strong>.
+            </p>
+            <label for="txtNumberOfPeople" class="form-label application__form-label">
+                Number of household members: <span class="required">*</span>
+            </label>
+            <input type="number" id="txtNumberOfPeople" name="txtNumberOfPeople" min="1" max="9"
+                class="form-input application__input" placeholder="1" required />
+        </div>
+
+    }
+
+    @if (QualificationProgram == "SSI" ||
+        QualificationProgram == "Housing" ||
+        QualificationProgram == "Veterans" ||
+        QualificationProgram == "TribalGeneral" ||
+        QualificationProgram == "TribalHeadStart" ||
+        QualificationProgram == "TribalTANF" ||
+        QualificationProgram == "TribalFood" ||
+        QualificationProgram == "Income")
+    {
+
+        <figure class="upload mt-5">
+            <h5>Please upload documentation <span class="required">*</span></h5>
+            <div class="upload__wrapper">
+                <label class="upload__label">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    <span>@(SelectedFileName ?? "Upload Documentation")</span>
+                    <InputFile name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf, .doc, .docx"
+                        required />
+                </label>
+            </div>
+
+        </figure>
+
+    }
+
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string SelectedProvider { get; set; }
+    private string? QualificationProgram { get; set; } = "";
+    private string? SelectedFileName;
+
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        SelectedFileName = e.FileCount > 0
+        ? e.File.Name
+        : null;
+    }
+
+    private string SSN { get; set; }
+    private bool ShowSSN { get; set; } = false;
+    private bool showChildDepSection = false;
+    private string InputType => ShowSSN ? "text" : "password";
+
+    private void OnChildDepChange(bool isChildOrDep)
+    {
+        showChildDepSection = isChildOrDep;
+    }
+
+}

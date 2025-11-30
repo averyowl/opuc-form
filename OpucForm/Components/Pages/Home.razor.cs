@@ -11,7 +11,7 @@ namespace OpucForm.Components.Pages
 
         [Inject] private IJSRuntime JS { get; set; } = default!;
 
-       
+
 
         private bool SameAsHomeAddress { get; set; } = true;
         private string? QualificationProgram { get; set; } = "";
@@ -19,9 +19,11 @@ namespace OpucForm.Components.Pages
         private string _ssn = "";
         private string? SelectedFileName;
 
+        public string selectedProvider { get; set; } = string.Empty;
+
 
         // DB
-        private string? zipCode;
+        //  string zipCode = "";
 
 
         // Form Viewing
@@ -31,21 +33,26 @@ namespace OpucForm.Components.Pages
         private int CurrentStep = 1;
         private int TotalSteps = 4;
 
-        private void GoNext()
+        private async Task GoNext()
         {
             if (CurrentStep < TotalSteps)
                 CurrentStep++;
+
+            await ScrollToTop();
         }
 
-        private void GoBack()
+        private async Task GoBack()
         {
             if (CurrentStep > 1)
                 CurrentStep--;
+
+            await ScrollToTop();
         }
 
-        private void GoToStep(int step)
+        private async Task GoToStep(int step)
         {
             CurrentStep = step;
+            await ScrollToTop();
         }
 
         private string GetBulletClass(int step)
@@ -54,8 +61,40 @@ namespace OpucForm.Components.Pages
             if (step == CurrentStep) return "bullet current";    // Current step
             return "bullet future";                              // Upcoming steps
         }
+
+        // Percentage of progress (0% = step 1 not started, 100% = step 4 completed)
+        private double ProgressPercentage
+        {
+            get
+            {
+                // Step 1 starts full (100% of the first bullet), then progresses gradually
+                if (CurrentStep == 1)
+                    return 100 * 0.5; // half filled
+                return ((CurrentStep - 1) / (double)(TotalSteps - 1)) * 100;
+            }
+        }
+
+        // When user selects a provider to apply to, move to step 2.
+        private async Task HandleProviderSelected(string provider)
+        {
+            selectedProvider = provider; // update provider
+            CurrentStep = 2; // move to step 2
+            await ScrollToTop();
+
+        }
+
+        // Function to scroll smoothly to top when user navigates form.
+        private async Task ScrollToTop()
+        {
+            if (JS != null)
+            {
+                await JS.InvokeVoidAsync("scrollToTop");
+            }
+        }
+
         // ================== Pagination ==================
 
+        // May not be needed anymore if were not using xxx-xx-xxxx format for SSNs
         public string SSN
 
         {
@@ -79,18 +118,19 @@ namespace OpucForm.Components.Pages
             }
         }
 
+        // For autocompletion of addresses.
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
                 _mapboxModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/mapbox.js");
                 await _mapboxModule.InvokeVoidAsync("initMapbox");
-              
+
 
             }
         }
 
-
+        // May not be needed anymore
         private async Task OnMailingAddressToggleChanged()
         {
             if (!SameAsHomeAddress && _mapboxModule is not null)
@@ -100,6 +140,7 @@ namespace OpucForm.Components.Pages
             }
         }
 
+        // May not be needed anymore since this will be handled in step2model.
         private void OnFileSelected(InputFileChangeEventArgs e)
         {
             SelectedFileName = e.FileCount > 0
@@ -107,19 +148,6 @@ namespace OpucForm.Components.Pages
                 : null;
         }
 
-        private void CheckZip()
-        {
-            // For now, simulate a "valid" ZIP check
-            // Later, this will query the DB or API
-            if (!string.IsNullOrWhiteSpace(zipCode))
-            {
-                showApplicationBody = true;
-            }
-            else
-            {
-                showApplicationBody = false;
-            }
-        }
 
 
     }

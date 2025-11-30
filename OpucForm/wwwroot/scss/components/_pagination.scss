@@ -10,6 +10,7 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+
 .pindicator .bullet {
     flex: 1;
     position: relative;
@@ -31,6 +32,7 @@
     background-color: $color-white;
     //border: 1px solid #ccc;
     width: 100%;
+
 }
 
 .pindicator .bullet::after {
@@ -38,6 +40,7 @@
     transition: opacity .25s ease-out;
     opacity: 0;
     width: 100%;
+
 }
 
 .pindicator .bullet:first-child::before,
@@ -55,7 +58,6 @@
     background-color: $color-white;
     border-radius: 100%;
     color: $color-grey;
-    cursor: pointer;
     font-size: 1.5rem;
     display: inline-block;
     height: 2em;

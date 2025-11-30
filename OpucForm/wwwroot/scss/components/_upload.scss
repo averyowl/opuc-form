@@ -10,10 +10,10 @@
         gap: 0.5rem;
         padding: 1rem 1.25rem;
         background-color: #f9f9f9;
-        border: 2px solid $color-blue;
+        border: 2px solid $color-green-opuc;
         border-radius: 8px;
         cursor: pointer;
-        color: $color-blue;
+        color: $color-green-opuc;
         font-size: 1.5rem;
         font-weight: 600;
         transition: background 0.2s ease;
@@ -28,6 +28,7 @@
     }
 
     &__wrapper {
+        
     }
 
     &__input {

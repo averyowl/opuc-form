@@ -95,7 +95,7 @@
         align-items: start;
         margin-bottom: 3rem;
         margin-top: 2rem;
-        
+
 
 
         @include respond(tab-port) {
@@ -103,6 +103,58 @@
             padding: 4rem 3.75rem;
             border-radius: 2rem;
             border: 1px solid #ccc;
+        }
+
+        &-dropdown {
+
+
+            &--link {
+                text-decoration: none;
+                width: 100%;
+                background-color: $color-white;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.35rem 1.55rem;
+                border-radius: 0.85rem;
+                border: 1px solid #ccc;
+            }
+
+            &--list {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+
+            &--item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.2rem;
+
+            }
+
+            &--apply {
+                display: flex;
+                align-items: center;
+            }
+
+            &--text {
+                color: $color-black;
+                font-size: 1.7rem;
+                margin: 0;
+            }
+
+            &--subtext {
+                color: $color-green-opuc;
+                margin: 0;
+                font-size: 1.35rem;
+                margin-right: 6px;
+            }
+
+            &--icon {
+                color: $color-green-opuc;
+            }
         }
 
         &-form {
