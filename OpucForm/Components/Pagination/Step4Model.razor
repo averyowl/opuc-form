@@ -1,17 +1,256 @@
-<h3>Step 4 - add content here</h3>
-<br />
-Agreement
-<br />
-Initial boxes for 8 agreements.
-<br />
-<br />
+<h1>Agreement</h1>
+<div class="mt-5 mb-5 form-group application__group application__group--agree">
+    <h5>Please read and check each rule to indicate that you understand and agree: <span class="required">*</span></h5>
+</div>
+<div class="terms-grid">
+    <div class="application__term">
+        <input type="text" id="understanding1" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding1" class="application__term-label">
+            I understand that if I am approved as eligible, it may take 30–60 days for my service provider to
+            apply the Oregon Lifeline benefit to my account.
+        </label>
+    </div>
+    <div class="application__term ">
+        <input type="text" id="understanding2" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding2" class="application__term-label">
+            I give the Oregon Public Utility Commission (OPUC), the Federal Communications Commission, and the
+            Universal Service Administrative Company authority to review any records needed to confirm my
+            eligibility.
+        </label>
+    </div>
+    <div class="application__term">
+        <input type="text" id="understanding3" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding3" class="application__term-label">
+            I understand that my household can only get one Lifeline benefit.
+        </label>
+    </div>
+    <div class="application__term">
+        <input type="text" id="understanding4" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding4" class="application__term-label">
+            I understand that if I violate the one-per-household rule, I will be de-enrolled from the Oregon
+            Lifeline program.
+        </label>
+    </div>
+    <div class="application__term application__term-list">
+        <div class="application__term">
+            <input type="text" id="understanding5" class="initial-input application__term-check" maxlength="2"
+                required />
+            <label for="understanding5" class="application__term-label">
+                I agree to notify the PUC within 30 days if:
+            </label>
+        </div>
 
-Review and submit component showing each section and what info was filled out.
-<br />
-<br />
+        <ul class="application__list">
 
-Captcha
-<br />
-<br />
-Final submit button
-- Display success modal
+            <li class="application__item">I move.</li>
+            <li class="application__item">I disconnect service.</li>
+            <li class="application__item">I no longer qualify for the Oregon Lifeline benefit.</li>
+            <li class="application__item">I receive more than one Oregon Lifeline benefit.</li>
+            <li class="application__item">Another member of my household is also receiving the Oregon Lifeline
+                benefit.</li>
+        </ul>
+    </div>
+
+    <div class="application__term">
+        <input type="text" id="understanding6" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding6" class="application__term-label">
+            I understand that my Oregon Lifeline benefit may not be transferred or given to any other person.
+        </label>
+    </div>
+
+    <div class="application__term">
+        <input type="text" id="understanding7" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding7" class="application__term-label">
+            I understand that I may be required to recertify my eligibility at any time and that failure to do so
+            will stop my benefit.
+        </label>
+    </div>
+
+    <div class="application__term">
+        <input type="text" id="understanding8" class="initial-input application__term-check" maxlength="2" required />
+        <label for="understanding8" class="application__term-label">
+            I understand that providing false information to obtain this benefit is punishable by law and may
+            result in fines, imprisonment, or permanent disqualification.
+        </label>
+    </div>
+</div>
+
+<hr />
+
+<h1>Review and Submit</h1>
+<h5>Please review the information below before submitting your application.</h5>
+
+<div class="review__wrapper">
+    <figure class="review mt-5">
+        <div class="review__top">
+            <div class="review__top-right">
+                <p class="review__top-text"><strong>Section 1</strong></p>
+            </div>
+            <div class="review__top-left"><button class="review__top-btn btn btn-primary">Edit</button></div>
+        </div>
+        <div class="review__bottom">
+
+            <div class="review__bottom-item">
+                <h3>Service Account Information</h3>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Service Provider:</strong></p>
+                    <p class="review__top-text review__top-text--a">N/A</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Phone or Account Number:</strong></p>
+                    <p class="review__top-text review__top-text--a">N/A</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Do you qualify for Lifeline through your child or a
+                            dependant?:</strong>
+                    </p>
+                    <p class="review__top-text review__top-text--a">Yes</p>
+                </div>
+            </div>
+            <div class="review__bottom-item mt-4">
+                <h3>Child/Dependants Information</h3>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>First Name:</strong></p>
+                    <p class="review__top-text review__top-text--a">firstName</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Middle Name:</strong></p>
+                    <p class="review__top-text review__top-text--a">middleName</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Last Name:</strong></p>
+                    <p class="review__top-text review__top-text--a">lastName</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Date of Birth:</strong></p>
+                    <p class="review__top-text review__top-text--a">dd-mm-yyyy</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Last 4 of SSN:</strong></p>
+                    <p class="review__top-text review__top-text--a">1234</p>
+                </div>
+            </div>
+            <div class="review__bottom-item mt-4">
+                <h3>Program Qualification</h3>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Qualification Type:</strong></p>
+                    <p class="review__top-text review__top-text--a">SNAP</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Document Uploaded:</strong></p>
+                    <p class="review__top-text review__top-text--a">document.pdf</p>
+                </div>
+            </div>
+        </div>
+    </figure>
+
+    <figure class="review">
+        <div class="review__top">
+            <div class="review__top-right">
+                <p class="review__top-text"><strong>Section 2</strong></p>
+            </div>
+            <div class="review__top-left"><button class="review__top-btn btn btn-primary">Edit</button></div>
+        </div>
+        <div class="review__bottom">
+            <div class="review__bottom-item">
+                <h3>Service Account Information</h3>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>First Name:</strong></p>
+                    <p class="review__top-text review__top-text--a">firstName</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Middle Name:</strong></p>
+                    <p class="review__top-text review__top-text--a">middleName</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Last Name:</strong></p>
+                    <p class="review__top-text review__top-text--a">lastName</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Date of Birth:</strong></p>
+                    <p class="review__top-text review__top-text--a">dd-mm-yyyy</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Last 4 of SSN:</strong></p>
+                    <p class="review__top-text review__top-text--a">1234</p>
+                </div>
+                <h3 class="mt-4">Contact Information</h3>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Phone Number:</strong></p>
+                    <p class="review__top-text review__top-text--a">123-456-7890</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Email Addres:</strong></p>
+                    <p class="review__top-text review__top-text--a">example@email.com</p>
+                </div>
+                <h3 class="mt-4">Home Address</h3>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Physical Address:</strong></p>
+                    <p class="review__top-text review__top-text--a">123 Fir St, Portland, OR 97053</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Do you live on federally-recognized tribal lands in
+                            Oregon?</strong></p>
+                    <p class="review__top-text review__top-text--a">Y/N</p>
+                </div>
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Is this a temporary address?</strong></p>
+                    <p class="review__top-text review__top-text--a">Y/N</p>
+                </div>
+                <!-- SHOW only if user input a mailing address -->
+                <div class="review__bottom-section">
+                    <p class="review__top-text"><strong>Mailing Address:</strong></p>
+                    <p class="review__top-text review__top-text--a">143 John Rd, Wilsonville, OR 97070</p>
+                </div>
+
+            </div>
+        </div>
+    </figure>
+
+    <figure class="review">
+        <div class="review__top">
+            <div class="review__top-right">
+                <p class="review__top-text"><strong>Section 3</strong></p>
+            </div>
+            <div class="review__top-left"><button class="review__top-btn btn btn-primary">Edit</button></div>
+        </div>
+        <div class="review__bottom">
+            <div class="review__bottom-item">
+                <h3>Agreement</h3>
+                <div class="application__term mt-4">
+                    <input type="text" id="understanding7" class="initial-input application__term-check" maxlength="2"
+                        required />
+                    <label for="understanding7" class="application__term-label">
+                        By signing this application I certify under penalty of perjury that the information contained in
+                        this application is true and correct and that I meet the eligibility criteria for the Oregon
+                        Lifeline benefit.
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </figure>
+
+</div>
+
+<div class="form-group mt-3">
+    <div class="g-recaptcha" data-sitekey="6LcQxiAsAAAAAH4zOMSP1Ec4wyv3LO01J6KBfhe_"></div>
+</div>
+
+
+@code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("eval",
+            @"var script = document.createElement('script');
+script.src = 'https://www.google.com/recaptcha/api.js';
+script.async = true;
+script.defer = true;
+document.head.appendChild(script);"
+            );
+        }
+    }
+}

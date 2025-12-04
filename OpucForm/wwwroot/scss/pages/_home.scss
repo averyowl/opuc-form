@@ -38,6 +38,7 @@
             display: flex;
 
             &--wrapper {
+                width: 100%;
                 padding: 0 3rem;
             }
         }
@@ -334,7 +335,7 @@
         width: 100%;
         display: flex;
         justify-items: start;
-        align-items: center;
+        align-items: start;
         margin-bottom: 2rem;
 
         &-check {

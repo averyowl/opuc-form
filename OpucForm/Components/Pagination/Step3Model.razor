@@ -1,30 +1,254 @@
-<h3>Step 3 - add content here</h3>
-<br />
-Applicant information:
-<br />
-First Name (required)
-Middle Name
-Last Name (required)
-<br />
-<br />
-Date of birth (required)
-<br />
-Social Security #
-<br />
-<br />
-Contact Number (required)
-<br />
-Contact Email
-<br />
-<br />
-Home Address: Street, City, State (Always Oregon), Zip (required)
-<br />
-<br />
-Question: Do you live on federally-recognized tribal lands? Y/N
-- Y: Name of tribe (Dropdown)
-<br />
-<br />
-Question: Is this a temporary address? Y/N
-<br />
-<br />
-Mailing Address (if different from home address): Street, City, State (Always Oregon), Zip
+<h1>Applicant information</h1>
+
+<div class="application__group--phoneinfo-i mt-5 mb-5">
+    <h2><strong>Fill out your child or dependants information</strong></h2>
+    <div class="application__group--name-div mb-3">
+        <label class="application__form-label" for="firstName"><strong>First Name</strong> <span
+                class="required">*</span></label>
+        <input type="text" class="form-control form-control-lg application__input" id="firstName"
+            placeholder="First name" required />
+    </div>
+
+    <div class="application__group--name-div mb-3">
+        <label class="application__form-label" for="middleName"><strong>Middle Name</strong> (optional)</label>
+        <input type="text" class="form-control form-control-lg application__input" id="middleName"
+            placeholder="Middle name" />
+    </div>
+
+    <div class="application__group--name-div">
+        <label class="application__form-label" for="lastName"><strong>Last Name</strong> <span
+                class="required">*</span></label>
+        <input type="text" class="form-control form-control-lg application__input" id="lastName" placeholder="Last name"
+            required />
+
+    </div>
+</div>
+<hr />
+
+<div class="application__group--phoneinfo-i mt-5 mb-5">
+    <h2><strong>Date of Birth</strong></h2>
+
+    <label class="application__form-label" for="firstName">Format: 01/01/1975 <span class="required">*</span></label>
+    <input type="date" class="form-control form-control-lg application__input" id="dob" min="1900-01-01"
+        max="2025-11-27" required />
+
+</div>
+
+
+<div class="application__group--phoneinfo-i mt-5 mb-5">
+    <h2><strong>Social Security #</strong></h2>
+    <p class="application__text">Enter the last 4 digits of their Social Security Number.</p>
+
+    <label class="application__form-label" for="firstName">Last 4 digits of their SSN <span
+            class="required">*</span></label>
+    <input @bind="SSN" type="@InputType" class="form-control form-control-lg application__input" id="ssn"
+        inputmode="numeric" placeholder="0000" maxlength="4" required />
+
+    <div class="step2__check form-check mt-2">
+        <input class="step2__check--input form-check-input" type="checkbox" id="showSSN" @bind="ShowSSN" />
+
+        <label class="step2__check--label form-check-label" for="showSSN">
+            Show SSN
+        </label>
+    </div>
+</div>
+
+<hr />
+<div class="application__group--phoneinfo-i">
+    <!-- Contact Phone Number -->
+    <h2><strong>Contact Information</strong></h2>
+    <label for="contactPhone" class="application__form-label">
+        <strong>Phone Number</strong> <span class="required">*</span>
+    </label>
+    <small class="text-muted d-block mb-2 application__form-small">
+        Format: 123-123-1234
+    </small>
+    <input type="text" id="contactPhone" class="form-control form-control-lg application__input" inputmode="numeric"
+        placeholder="123-123-1234" maxlength="12" required />
+
+    <label for="contactPhone" class="application__form-label">
+        <strong>Email Address</strong> <span class="required">*</span>
+    </label>
+    <input type="text" id="contactEmail" class="form-control form-control-lg application__input" inputmode="numeric"
+        placeholder="username@example.com" />
+    <small class="text-muted d-block mb-2 application__form-small">
+        <strong>NOTE: </strong>This email will be used to send your application confirmation.
+    </small>
+</div>
+
+<hr />
+<div class="mt-5 form-group application__group application__group--homeaddress" data-mapbox-autofill="true">
+
+
+    <h2><strong>Applicant's Home Address</strong></h2>
+    <form>
+        <label for="addressStreet" class="application__form-label">
+            Address <span class="required">*</span>
+        </label>
+        <input type="text" id="addressStreet" class="form-control form-control-lg application__input"
+            placeholder="Start typing an address..." autocomplete="address-line1" required />
+
+        <label for="addressStreetLine2" class="application__form-label">
+            Address Line 2
+        </label>
+        <input type="text" id="addressStreetLine2" class="form-control form-control-lg application__input"
+            placeholder="Apt / Suite / Bldg / Unit" autocomplete="address-line2" />
+
+        <label for="addressCity" class="application__form-label">
+            City <span class="required">*</span>
+        </label>
+        <input type="text" id="addressCity" class="form-control form-control-lg application__input" placeholder="City"
+            autocomplete="address-level2" required />
+
+        <div class="application__form-StateZip">
+            <div class="application__form-StateZip-i">
+                <label for="addressState" class="application__form-label">
+                    State <span class="required">*</span>
+                </label>
+                <input type="text" id="addressState" class="form-control form-control-lg application__input"
+                    placeholder="State" autocomplete="address-level1" required />
+            </div>
+            <div class="application__form-StateZip-i">
+                <label for="addressZip" class="application__form-label">
+                    Zip <span class="required">*</span>
+                </label>
+                <input type="text" id="addressZip" class="form-control form-control-lg application__input"
+                    placeholder="Zip Code" autocomplete="postal-code" required />
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- Tribal lands question -->
+    <fieldset class="mt-3">
+        <legend class="application__form-label">
+            Do you live on federally recognized Tribal lands in Oregon?
+            <span class="required">*</span>
+        </legend>
+        <div class="application__radio-group">
+            <label class="application__radio-option">
+                <input type="radio" name="tribalLand" id="tribalLandYes" value="yes" required />
+                Yes
+            </label>
+            <label class="application__radio-option">
+                <input type="radio" name="tribalLand" id="tribalLandNo" value="no" required />
+                No
+            </label>
+        </div>
+    </fieldset>
+
+    <!-- Temporary address question -->
+    <fieldset class="mt-4 mb-4">
+        <legend class="application__form-label">
+            Is this a temporary address?
+        </legend>
+        <div class="application__radio-group">
+            <label class="application__radio-option">
+                <input type="radio" name="temporaryAddress" id="temporaryYes" value="yes" />
+                Yes
+            </label>
+            <label class="application__radio-option">
+                <input type="radio" name="temporaryAddress" id="temporaryNo" value="no" />
+                No
+            </label>
+        </div>
+    </fieldset>
+
+    <label class="application__input-check--label" for="sameAsHomeAddress">
+        <input type="checkbox" id="sameAsHomeAddress" class="application__input-check" @bind="SameAsHomeAddress"
+            @bind:after="() => OnMailingAddressToggleChanged()" />
+        My mailing address is the same as my residential address
+    </label>
+
+
+    <div class="fade-down mt-5 form-group application__group application__group--mailaddress"
+        style="@(SameAsHomeAddress ? "display:none;" : "display:block;")">
+        <div id="mailingAddressFields">
+            <h2><strong>Applicant's Mailing Address</strong></h2>
+
+            <form>
+                <label for="mailingAddressStreet" class="application__form-label">
+                    Address
+                </label>
+                <input type="text" id="mailingAddressStreet" class="form-control form-control-lg application__input"
+                    placeholder="Start typing an address..." autocomplete="address-line1" />
+
+                <label for="mailingAddressStreetLine2" class="application__form-label">
+                    Address Line 2
+                </label>
+                <input type="text" id="mailingAddressStreetLine2"
+                    class="form-control form-control-lg application__input" placeholder="Apt / Suite / Bldg / Unit"
+                    autocomplete="address-line2" />
+
+                <label for="mailingAddressCity" class="application__form-label">
+                    City
+                </label>
+                <input type="text" id="mailingAddressCity" class="form-control form-control-lg application__input"
+                    placeholder="City" autocomplete="address-level2" />
+
+                <div class="application__form-StateZip">
+                    <div class="application__form-StateZip-i">
+                        <label for="mailingAddressState" class="application__form-label">
+                            State
+                        </label>
+                        <input type="text" id="mailingAddressState"
+                            class="form-control form-control-lg application__input" placeholder="State"
+                            autocomplete="address-level1" />
+                    </div>
+                    <div class="application__form-StateZip-i">
+                        <label for="mailingAddressZip" class="application__form-label">
+                            Zip
+                        </label>
+                        <input type="text" id="mailingAddressZip"
+                            class="form-control form-control-lg application__input" placeholder="Zip Code"
+                            autocomplete="postal-code" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+@code {
+    /* Code to show/hide ssn field */
+    private string SSN { get; set; }
+    private bool ShowSSN { get; set; } = false;
+    private string InputType => ShowSSN ? "text" : "password";
+    /* Code to show/hide ssn field */
+
+
+
+
+    /* Code for togging "My mailing address is the same as my residential address" -> another address field pops up for the
+    applicant to enter mailing address */
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    private bool SameAsHomeAddress { get; set; } = true;
+    private IJSObjectReference? _mapboxModule;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _mapboxModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/mapbox.js");
+            await _mapboxModule.InvokeVoidAsync("initMapbox");
+
+
+        }
+    }
+    private async Task OnMailingAddressToggleChanged()
+    {
+        if (!SameAsHomeAddress && _mapboxModule is not null)
+        {
+            // Re-initialize Mapbox autofill for mailing address fields
+            await _mapboxModule.InvokeVoidAsync("initMailingAddressAutocomplete");
+        }
+    }
+
+    /* Code for togging "My mailing address is the same as my residential address" -> another address field pops up for the
+    applicant to enter mailing address */
+
+}

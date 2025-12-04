@@ -53,7 +53,8 @@
         <div class="application__check-form">
           <label class="application__form-label" for="zipCode">Enter your Zip code to see avaliable providers in your
             area <span class="required">*</span></label>
-          <small>Enter '97035' or '97068' for testing purposes. Everything else will fail.</small>
+          <br />
+          <p>Enter '97035' or '97068' for testing purposes. Everything else will fail.</p>
           <input @bind="zipCode" id="EligibilityZip" class="form-control form-control-lg application__input"
             placeholder="Zip Code" type="number" pattern="[0-9]*" inputmode="numeric" required />
           <button @onclick="CheckZip" name="btnSubmit" value="Check" id="btnSubmit"
@@ -66,69 +67,80 @@
       {
         @if (providers.Any())
         {
-          <h2>
-            <strong>The following service providers are in your area:</strong>
-          </h2>
-          <div class="application__check-dropdown">
-            <ul class="application__check-dropdown--list">
-              @foreach (var provider in providers)
-              {
-                <li class="application__check-dropdown--item">
-                  <a href="javascript:void(0)" class="application__check-dropdown--link"
-                    @onclick="() => SelectProvider(provider)">
-                    <p class="application__check-dropdown--text">@provider</p>
-                    <div class="application__check-dropdown--apply">
-                      <p class="application__check-dropdown--subtext">Apply</p>
-                      <i class="application__check-dropdown--icon fa-solid fa-angle-right fa-lg"></i>
-                    </div>
+          <div class="fade-down">
+            <div class="application__check-dropdown">
+              <ul class="application__check-dropdown--list">
+                @foreach (var provider in providers)
+                {
+                  <li class="application__check-dropdown--item">
+                    <a href="javascript:void(0)" class="application__check-dropdown--link"
+                      @onclick="() => SelectProvider(provider)">
+                      <p class="application__check-dropdown--text">@provider</p>
+                      <div class="application__check-dropdown--apply">
+                        <p class="application__check-dropdown--subtext">Apply</p>
+                        <i class="application__check-dropdown--icon fa-solid fa-angle-right fa-lg"></i>
+                      </div>
 
-                  </a>
-                </li>
-              }
-            </ul>
+                    </a>
+                  </li>
+                }
+              </ul>
+            </div>
+
+            <h2>
+              <strong>The following service providers are in your area:</strong>
+            </h2>
           </div>
         }
         else
         {
-          <p class="text-danger mt-1" style="font-size: 1.5rem; font-weight: 500;">
-            Sorry, no providers are avaliable in your area. Please contact us for more information.
-          </p>
+          <div class="fade-down">
+            <p class="text-danger mt-1" style="font-size: 1.5rem; font-weight: 500;">
+              Sorry, no providers are avaliable in your area. Please contact us for more information.
+            </p>
+          </div>
+
         }
+        <div class="fade-down">
+          <div class="application__check-msg mb-5">
+            <p style="color: #565656;" class="application__text"><strong>Note: </strong>Not all service providers are part
+              of the Oregon Lifeline program. If your provider does not appear in the list, it may mean they do not
+              participate. For a complete list of participating providers, please visit: <a
+                href="https://www.oregon.gov/puc/pages/oregon-lifeline.aspx" target="_blank">www.lifeline.oregon.gov</a>
+            </p>
+            <p style="color: #565656;" class="application__text">The below companies only offer the Oregon Lifeline
+              discount
+              in select areas. Please call your company to find out if they offer the discount where you live.</p>
+
+            <p class="application__text">
+              <strong>AT&T Mobility:</strong>
+              <a href="tel:18003779450" class="application__link">
+                1-800-377-9450
+              </a>
+            </p>
+            <p class="application__text">
+              <strong>Blue Mountain Networks:</strong>
+              <a href="tel:5413703000" class="application__link">
+                541-370-3000
+              </a>
+            </p>
+            <p class="application__text">
+              <strong>Spectrum:</strong>
+              <a href="tel:18009417809" class="application__link">
+                1-800-941-7809
+              </a>
+            </p>
+            <p class="application__text">
+              <strong>Viasat:</strong>
+              <a href="tel:18558517419" class="application__link">
+                1-855-851-7419
+              </a>
+            </p>
+          </div>
+        </div>
+
       }
 
-      <div class="application__check-msg mb-5">
-        <p style="color: #565656;" class="application__text"><strong>Note: </strong>Not all service providers are part
-          of the Oregon Lifeline program. If your provider does not appear in the list, it may mean they do not
-          participate. For a complete list of participating providers, please visit: <a
-            href="https://www.oregon.gov/puc/pages/oregon-lifeline.aspx" target="_blank">www.lifeline.oregon.gov</a></p>
-        <p style="color: #565656;" class="application__text">The below companies only offer the Oregon Lifeline discount
-          in select areas. Please call your company to find out if they offer the discount where you live.</p>
-
-        <p class="application__text">
-          <strong>AT&T Mobility:</strong>
-          <a href="tel:18003779450" class="application__link">
-            1-800-377-9450
-          </a>
-        </p>
-        <p class="application__text">
-          <strong>Blue Mountain Networks:</strong>
-          <a href="tel:5413703000" class="application__link">
-            541-370-3000
-          </a>
-        </p>
-        <p class="application__text">
-          <strong>Spectrum:</strong>
-          <a href="tel:18009417809" class="application__link">
-            1-800-941-7809
-          </a>
-        </p>
-        <p class="application__text">
-          <strong>Viasat:</strong>
-          <a href="tel:18558517419" class="application__link">
-            1-855-851-7419
-          </a>
-        </p>
-      </div>
 
       <h4 class="mb-4">Questions? Contact The OPUC:</h4>
 

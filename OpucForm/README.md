@@ -47,8 +47,8 @@ npm install -g sass
 
 ## TODO as of (11/29/2025):
 
-- Find a fix for Google Translate Widget (Home.razor)
-- Add content to Step3Model.razor
 - Check that all inputs are valid before allowing applicant to progress in each step.
 - Remove unused code
 - Add address validation via USPS API (https://developers.usps.com/addressesv3)
+- Desktop design optimization
+- Accessibility Testing (WAVE, Lighthouse, etc)
