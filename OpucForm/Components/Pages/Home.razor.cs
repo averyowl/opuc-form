@@ -11,15 +11,12 @@ namespace OpucForm.Components.Pages
 
         [Inject] private IJSRuntime JS { get; set; } = default!;
 
-
-
         private bool SameAsHomeAddress { get; set; } = true;
         private string? QualificationProgram { get; set; } = "";
-        private IJSObjectReference? _mapboxModule;
         private string _ssn = "";
         private string? SelectedFileName;
 
-        public string selectedProvider { get; set; } = string.Empty;
+        public string selectedProvider { get; set; } = "N/A";
 
 
         // DB
@@ -118,27 +115,6 @@ namespace OpucForm.Components.Pages
             }
         }
 
-        // For autocompletion of addresses.
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                _mapboxModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/mapbox.js");
-                await _mapboxModule.InvokeVoidAsync("initMapbox");
-
-
-            }
-        }
-
-        // May not be needed anymore
-        private async Task OnMailingAddressToggleChanged()
-        {
-            if (!SameAsHomeAddress && _mapboxModule is not null)
-            {
-                // Re-initialize Mapbox autofill for mailing address fields
-                await _mapboxModule.InvokeVoidAsync("initMailingAddressAutocomplete");
-            }
-        }
 
         // May not be needed anymore since this will be handled in step2model.
         private void OnFileSelected(InputFileChangeEventArgs e)

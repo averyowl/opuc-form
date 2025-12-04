@@ -82,8 +82,8 @@
         <h2><strong>Date of Birth</strong></h2>
 
         <label class="application__form-label" for="firstName">Format: 01/01/1975 <span class="required">*</span></label>
-        <input type="date" class="form-control form-control-lg application__input" id="dob" min="1900-01-01"
-            max="2025-11-27" required />
+        <input type="date" class="form-control form-control-lg application__input" id="dob"
+            min="@MinDob.ToString("yyyy-MM-dd")" max="@MaxDob.ToString("yyyy-MM-dd")" required />
 
     </div>
 
@@ -228,5 +228,10 @@
     {
         showChildDepSection = isChildOrDep;
     }
+
+    /* Code to ensure the applicant can only enter dates up to 115 years old. */
+    public DateTime MaxDob => DateTime.Today.AddYears(-115);
+    public DateTime MinDob => DateTime.Today;
+
 
 }
