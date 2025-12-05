@@ -54,9 +54,9 @@
           <label class="application__form-label" for="zipCode">Enter your Zip code to see avaliable providers in your
             area <span class="required">*</span></label>
           <br />
-          <p>Enter '97035' or '97068' for testing purposes. Everything else will fail.</p>
+          <p>Enter any Oregon ZIP code ranging between 97000-97999 for testing purposes.</p>
           <input @bind="zipCode" id="EligibilityZip" class="form-control form-control-lg application__input"
-            placeholder="Zip Code" type="number" pattern="[0-9]*" inputmode="numeric" required />
+            placeholder="Zip Code" type="text" pattern="[0-9]*" maxlength="5" required />
           <button @onclick="CheckZip" name="btnSubmit" value="Check" id="btnSubmit"
             class="btn btn-primary">Check</button>
         </div>
@@ -96,7 +96,9 @@
         {
           <div class="fade-down">
             <p class="text-danger mt-1" style="font-size: 1.5rem; font-weight: 500;">
-              Sorry, no providers are avaliable in your area. Please contact us for more information.
+              <!-- MUST be VALID Oregon Zip code. There are providers in every zip code in Oregon. -->
+              @ZipErrorMessage
+
             </p>
           </div>
 
@@ -177,24 +179,36 @@
   private string zipCode = string.Empty;
   private List<string> providers = new();
   private bool hasChecked = false;
+  private string? ZipErrorMessage = null;
 
 
   private async Task CheckZip()
   {
+    ZipErrorMessage = null;
     hasChecked = true;
 
-    var providerData = new Dictionary<string, List<string>>
+    // Ensure input is exactly 5 digits
+    if (string.IsNullOrWhiteSpace(zipCode) || zipCode.Length != 5)
     {
-      // Test data for zip code in step 1. Add more if you'd like.
-      // ZIP code -> Providers in that ZIP code.
-      ["97035"] = new List<string> { "Verizon", "Xfinity" },
-      ["97068"] = new List<string> { "AT&T", "Xfinity" }
-    };
+      ZipErrorMessage = "Please enter a valid 5-digit ZIP code.";
+      providers = new();
+      return;
+    }
 
-    if (providerData.TryGetValue(zipCode, out var list))
-      providers = list;
-    else
-      providers = new List<string>();
+    // Validate Oregon ZIP range
+    if (!int.TryParse(zipCode, out int code) || code < 97000 || code > 97999)
+    {
+      ZipErrorMessage = "Please enter a valid Oregon ZIP code (97000–97999).";
+      providers = new();
+      return;
+    }
+
+    // Any Oregon ZIP gets these providers
+    providers = new List<string>
+{
+"Verizon",
+"Xfinity"
+};
 
     await JS.InvokeVoidAsync("scrollToElement", ".application__message-right--i", 20);
 

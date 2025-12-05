@@ -59,12 +59,12 @@
             <label class="application__form-label" for="firstName"><strong>First Name</strong> <span
                     class="required">*</span></label>
             <input type="text" class="form-control form-control-lg application__input" id="firstName"
-                placeholder="First name" required />
+                placeholder="First name" maxlength="30" required />
         </div>
 
         <div class="application__group--name-div mb-3">
             <label class="application__form-label" for="middleName"><strong>Middle Name</strong> (optional)</label>
-            <input type="text" class="form-control form-control-lg application__input" id="middleName"
+            <input type="text" class="form-control form-control-lg application__input" id="middleName" maxlength="30"
                 placeholder="Middle name" />
         </div>
 
@@ -72,7 +72,7 @@
             <label class="application__form-label" for="lastName"><strong>Last Name</strong> <span
                     class="required">*</span></label>
             <input type="text" class="form-control form-control-lg application__input" id="lastName" placeholder="Last name"
-                required />
+                maxlength="30" required />
 
         </div>
     </div>
@@ -177,6 +177,14 @@
 
     }
 
+    @if (!string.IsNullOrEmpty(QualificationProgram) &&
+        ProgramDescriptions.TryGetValue(QualificationProgram, out var desc))
+    {
+        <div class="fade-down mt-3">
+            <p class="application__text">@desc</p>
+        </div>
+    }
+
     @if (QualificationProgram == "SSI" ||
         QualificationProgram == "Housing" ||
         QualificationProgram == "Veterans" ||
@@ -208,8 +216,22 @@
 
 @code {
     [Parameter]
-    public string SelectedProvider { get; set; }
+    public string SelectedProvider { get; set; } = "";
     private string? QualificationProgram { get; set; } = "";
+    // Explain what each of the qualification programs are
+    private readonly Dictionary<string, string> ProgramDescriptions = new()
+    {
+        ["SNAP"] = "SNAP provides monthly food benefits to eligible low-income individuals and families. SNAP participation automatically qualifies you with no documentation required.",
+        ["Medicaid"] = "Medicaid is a state and federal program that provides health coverage for eligible low-income adults, children, pregnant women, seniors, and people with disabilities. No documentation required",
+        ["SSI"] = "SSI provides monthly payments to adults and children with disabilities or blindness who have limited income and resources. Documentation is required to verify eligibility.",
+        ["Housing"] = "Federal Public Housing Assistance (Section 8) helps eligible low-income families with housing costs. Proof of participation is required.",
+        ["Veterans"] = "Veterans or Survivors Pension benefits provide financial support to wartime veterans or their survivors. Documentation is required.",
+        ["Income"] = "You may qualify if your household income is at or below 135% of the Federal Poverty Guidelines. Income documentation is required.",
+        ["TribalGeneral"] = "Tribal General Assistance provides monthly cash assistance to eligible American Indian and Alaska Native individuals.",
+        ["TribalHeadStart"] = "Tribal Head Start is a program promoting school readiness for young tribal children from low-income families. Documentation is required.",
+        ["TribalTANF"] = "Tribal TANF provides financial assistance and support services to tribal families with children. Documentation required.",
+        ["TribalFood"] = "The Tribal Food Distribution Program provides USDA foods to income-eligible tribal households. Documentation required."
+    };
     private string? SelectedFileName;
 
     private void OnFileSelected(InputFileChangeEventArgs e)
