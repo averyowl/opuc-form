@@ -6,7 +6,7 @@ This project is a Blazor Server web application for the **Oregon Public Utility 
 
 Before running the app, make sure you have the following installed:
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 - [Sass](https://sass-lang.com/install) – used to compile `.scss` to `.css`
 
 ## Running the Project

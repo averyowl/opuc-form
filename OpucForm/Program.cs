@@ -23,7 +23,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+// app.UseStaticFiles(); - Removed from .NET8
+app.MapStaticAssets();
 app.UseAntiforgery();
 
 app.MapPost("/api/formentries", async (FormEntry entry, ApplicationDbContext db) =>
