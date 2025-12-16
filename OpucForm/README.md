@@ -52,3 +52,5 @@ npm install -g sass
 - Add address validation via USPS API (https://developers.usps.com/addressesv3)
 - Desktop design optimization
 - Accessibility Testing (WAVE, Lighthouse, etc)
+- Fix h3 tag in home.razor (it keeps messing with the layout)
+- Fix issue with "check for eligibility" box expanding when button is clicked on desktop.

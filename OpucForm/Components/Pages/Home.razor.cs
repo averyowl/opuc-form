@@ -16,7 +16,30 @@ namespace OpucForm.Components.Pages
         private string _ssn = "";
         private string? SelectedFileName;
 
+        // Step 2 Data
         public string selectedProvider { get; set; } = "N/A";
+        public string applicantPhone { get; set; } = "N/A";
+
+        // Step 4
+        public bool ShowSubmitModal { get; set; } = false;
+        private void OpenSubmitModal()
+        {
+            ShowSubmitModal = true;
+        }
+
+        private void CloseSubmitModal()
+        {
+            ShowSubmitModal = false;
+        }
+
+        private async Task ConfirmSubmitAsync()
+        {
+            ShowSubmitModal = false;
+
+            // Call your actual submit logic here
+            //await SubmitApplicationAsync();
+        }
+
 
 
         // DB
@@ -33,9 +56,14 @@ namespace OpucForm.Components.Pages
         private async Task GoNext()
         {
             if (CurrentStep < TotalSteps)
+            {
                 CurrentStep++;
+                await ScrollToTop();
+                return;
+            }
 
-            await ScrollToTop();
+            // If we're already on the last step, clicking Next = Submit
+            OpenSubmitModal();
         }
 
         private async Task GoBack()

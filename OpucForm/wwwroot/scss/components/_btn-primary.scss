@@ -8,6 +8,13 @@
     font-weight: 600;
     background-color: $color-green-opuc;
     border-color: $color-blue-border;
+
+    &:hover,
+    &:active {
+
+        // Darken on hover and hold
+        background-color: darken($color-green-opuc, 5%) !important;
+    }
 }
 
 .btn-primary:disabled {

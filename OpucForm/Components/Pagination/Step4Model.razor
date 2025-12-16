@@ -94,7 +94,8 @@
                 <h3>Service Account Information</h3>
                 <div class="review__bottom-section">
                     <p class="review__top-text"><strong>Service Provider:</strong></p>
-                    <p class="review__top-text review__top-text--a">N/A</p>
+                    <p class="review__top-text review__top-text--a">@(!string.IsNullOrWhiteSpace(SelectedProvider) ?
+                                                SelectedProvider : "N/A")</p>
                 </div>
                 <div class="review__bottom-section">
                     <p class="review__top-text"><strong>Phone or Account Number:</strong></p>
@@ -239,6 +240,7 @@
 
 
 @code {
+    [Parameter] public string SelectedProvider { get; set; } = "";
     [Inject] private IJSRuntime JS { get; set; } = default!;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

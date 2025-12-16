@@ -95,16 +95,16 @@ body {
 
 h1 {
   font-size: 2.55rem;
-  color: #487b00;
+  color: #487B00;
   font-weight: 600;
 }
 
 h2 {
-  color: #487b00;
+  color: #487B00;
 }
 
 h3 {
-  color: #487b00;
+  color: #487B00;
   width: 100%;
   font-weight: 600;
 }
@@ -130,8 +130,13 @@ h6 {
   font-size: 1.45rem;
   padding: 1.25rem 0;
   font-weight: 600;
-  background-color: #487b00;
+  background-color: #487B00;
   border-color: #2e6da4;
+}
+.btn-primary:hover, .btn-primary:active,
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: rgb(57.0731707317, 97.5, 0) !important;
 }
 
 .btn-primary:disabled {
@@ -183,7 +188,7 @@ h6 {
 }
 
 .pindicator .bullet::after {
-  background-color: #487b00;
+  background-color: #487B00;
   transition: opacity 0.25s ease-out;
   opacity: 0;
   width: 100%;
@@ -223,7 +228,7 @@ h6 {
 
 .pindicator .past .icon,
 .pindicator .current .icon {
-  background-color: #487b00;
+  background-color: #487B00;
   color: white;
 }
 
@@ -249,6 +254,8 @@ h6 {
   margin-bottom: 0;
 }
 .review__wrapper {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
   background-color: #dfdfdf;
 }
 .review__top {
@@ -289,7 +296,7 @@ h6 {
   align-content: center;
 }
 .step2__h {
-  color: #487b00;
+  color: #487B00;
   font-weight: 600;
   margin: 0;
 }
@@ -312,10 +319,10 @@ h6 {
   gap: 0.5rem;
   padding: 1rem 1.25rem;
   background-color: #f9f9f9;
-  border: 2px solid #487b00;
+  border: 2px solid #487B00;
   border-radius: 8px;
   cursor: pointer;
-  color: #487b00;
+  color: #487B00;
   font-size: 1.5rem;
   font-weight: 600;
   transition: background 0.2s ease;
@@ -333,7 +340,7 @@ h6 {
   display: flex;
 }
 
-input[type="file"] {
+input[type=file] {
   position: absolute;
   inset: 0;
   opacity: 0;
@@ -360,8 +367,7 @@ i {
   border-bottom: 1px solid #ccc;
   padding: 1rem 0;
 }
-.footer__link:link,
-.footer__link:visited {
+.footer__link:link, .footer__link:visited {
   font-size: 1.75rem;
 }
 
@@ -569,13 +575,13 @@ i {
   margin: 0;
 }
 .application__check-dropdown--subtext {
-  color: #487b00;
+  color: #487B00;
   margin: 0;
   font-size: 1.35rem;
   margin-right: 6px;
 }
 .application__check-dropdown--icon {
-  color: #487b00;
+  color: #487B00;
 }
 .application__check-form {
   width: 100%;

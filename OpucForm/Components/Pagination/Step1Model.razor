@@ -198,7 +198,7 @@
     // Validate Oregon ZIP range
     if (!int.TryParse(zipCode, out int code) || code < 97000 || code > 97999)
     {
-      ZipErrorMessage = "Please enter a valid Oregon ZIP code (97000–97999).";
+      ZipErrorMessage = "Please enter a valid Oregon ZIP code.";
       providers = new();
       return;
     }
@@ -207,7 +207,9 @@
     providers = new List<string>
 {
 "Verizon",
-"Xfinity"
+"Xfinity",
+"Quantum Fiber",
+"Cox Communications"
 };
 
     await JS.InvokeVoidAsync("scrollToElement", ".application__message-right--i", 20);

@@ -116,7 +116,7 @@
     <h2><strong>Program Qualification</strong></h2>
     <p class="application__text">If you are applying for Oregon Lifeline on the basis of Federal Public Housing
         Assitance (Section 8), Veterans or Survivors Pension benefits, or any of the tribal benefits, you must submit
-        valid documentation.</p>
+        valid documentation. <span class="required">*</span></p>
     <h2><strong>How Does the Applicant Quality for Oregon Lifeline?</strong></h2>
 
     <select id="qualificationProgram" name="qualificationProgram"
@@ -215,8 +215,8 @@
 
 
 @code {
-    [Parameter]
-    public string SelectedProvider { get; set; } = "";
+    [Parameter] public string SelectedProvider { get; set; } = "";
+
     private string? QualificationProgram { get; set; } = "";
     // Explain what each of the qualification programs are
     private readonly Dictionary<string, string> ProgramDescriptions = new()
