@@ -1,3 +1,6 @@
+@inject IWebHostEnvironment Env
+@using OpucForm.Shared
+
 <h1>Service Account Information</h1>
 <div class="step2 mt-4">
     <h3 class="step2__h">Selected Service Provider:</h3>
@@ -120,8 +123,8 @@
     <h2><strong>How Does the Applicant Quality for Oregon Lifeline?</strong></h2>
 
     <select id="qualificationProgram" name="qualificationProgram"
-        class="form-control form-control-lg application__input application__input-select" @bind="QualificationProgram"
-        required>
+        class="form-control form-control-lg application__input application__input-select" value="@QualificationProgram"
+        @onchange="OnQualificationChanged" required>
         <option value="">Select one</option>
         <option value="SNAP">
             Supplemental Nutrition Assistance Program (SNAP) — No
@@ -172,7 +175,8 @@
                 Number of household members: <span class="required">*</span>
             </label>
             <input type="number" id="txtNumberOfPeople" name="txtNumberOfPeople" min="1" max="9"
-                class="form-input application__input" placeholder="1" required />
+                class="form-input application__input" placeholder="1" value="@NumberOfHouseholdMembers"
+                @onchange="OnHouseholdMembersChanged" required />
         </div>
 
     }
@@ -197,16 +201,42 @@
 
         <figure class="upload mt-5">
             <h5>Please upload documentation <span class="required">*</span></h5>
-            <div class="upload__wrapper">
+            <div class="mt-5 upload__wrapper @(isDragOver ? "upload__wrapper-drag" : "")" @ondragover:preventDefault="true"
+                @ondragover="OnDragOver" @ondragleave="OnDragLeave">
+
                 <label class="upload__label">
-                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                    <span>@(SelectedFileName ?? "Upload Documentation")</span>
-                    <InputFile name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf, .doc, .docx"
-                        required />
-                </label>
-            </div>
+                    <div class="upload__top">
+                        <div class="upload__top-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div class="upload__top-text">
+                            <p class="application__text">Select a file or drag and drop here.</p>
+                            <p class="application__text">.PDF, .DOC, or .DOCX file types. File size no more than 10MB.</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary upload__btn"><span>Select File</span></button>
+                    <span
+                        style="text-align: center;"">@(SelectedFileName ?? "")</span>
+                                                                                                                                        <InputFile @key="
+                                                                                                                                                   FileInputKey" name="uploadFile" id="fileInput" OnChange="OnFileSelected" accept=".pdf,.doc,.docx"
+                    required />
+            </label>
+        </div>
 
         </figure>
+
+    @if (!string.IsNullOrEmpty(SelectedFileName))
+        {
+            <button type="button" class="btn btn-link text-danger mt-2 application__text" @onclick="ClearFile">
+                Remove file
+            </button>
+        }
+
+        @if (!string.IsNullOrEmpty(UploadError))
+        {
+            <p class="text-danger mt-2 application__text">@UploadError</p>
+        }
+
 
     }
 
@@ -215,9 +245,22 @@
 
 
 @code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
     [Parameter] public string SelectedProvider { get; set; } = "";
 
-    private string? QualificationProgram { get; set; } = "";
+    /* ================= FILE UPLOAD & QUALIFICATION TYPE ================= */
+    [Parameter] public string QualificationProgram { get; set; } = "";
+    [Parameter] public EventCallback<string> QualificationProgramChanged { get; set; }
+    [Parameter] public UploadedDocumentDto? UploadedDocument { get; set; }
+    [Parameter] public EventCallback<UploadedDocumentDto> UploadedDocumentChanged { get; set; }
+
+    /* ================= FILE UPLOAD & QUALIFICATION TYPE ================= */
+
+    /* ================= QUALIFICATION TYPE: Income ================= */
+    [Parameter] public int? NumberOfHouseholdMembers { get; set; }
+    [Parameter] public EventCallback<int?> NumberOfHouseholdMembersChanged { get; set; }
+    /* ================= QUALIFICATION TYPE: Income ================= */
+
     // Explain what each of the qualification programs are
     private readonly Dictionary<string, string> ProgramDescriptions = new()
     {
@@ -232,14 +275,150 @@
         ["TribalTANF"] = "Tribal TANF provides financial assistance and support services to tribal families with children. Documentation required.",
         ["TribalFood"] = "The Tribal Food Distribution Program provides USDA foods to income-eligible tribal households. Documentation required."
     };
-    private string? SelectedFileName;
 
-    private void OnFileSelected(InputFileChangeEventArgs e)
+    /* ==================== Code for documentation upload & client-side validation ==================== */
+    private IBrowserFile? SelectedFile;
+    private string? SelectedFileName;
+    private string? UploadError;
+    private Guid FileInputKey = Guid.NewGuid();
+
+
+    // Whenever the user updates the input, notify the parent:
+    private async Task OnHouseholdMembersChanged(ChangeEventArgs e)
     {
-        SelectedFileName = e.FileCount > 0
-        ? e.File.Name
-        : null;
+        if (int.TryParse(e.Value?.ToString(), out var value))
+        {
+            NumberOfHouseholdMembers = value;
+            await NumberOfHouseholdMembersChanged.InvokeAsync(value);
+        }
+        else
+        {
+            NumberOfHouseholdMembers = null;
+            await NumberOfHouseholdMembersChanged.InvokeAsync(null);
+        }
     }
+
+    // Clear file helper method
+    private async void ClearFile()
+    {
+        SelectedFile = null;
+        SelectedFileName = null;
+        UploadedDocument = null;
+        await UploadedDocumentChanged.InvokeAsync(null);
+        FileInputKey = Guid.NewGuid(); // reset InputFile
+    }
+    // Clear file error helper method
+    private void ClearError()
+    {
+        UploadError = null;
+    }
+
+    [Parameter] public EventCallback<UploadedDocumentDto> OnDocumentSelected { get; set; }
+
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        ClearError();
+
+        if (e.FileCount == 0)
+            return;
+
+        SelectedFile = e.File;
+        SelectedFileName = SelectedFile.Name;
+
+
+        if (!ValidateFile())
+        {
+            // Clear only AFTER validation fails
+            ClearFile();
+            FileInputKey = Guid.NewGuid(); // resets <InputFile>
+            return;
+        }
+
+        // Valid file -> read it.
+        using var stream = SelectedFile.OpenReadStream(maxAllowedSize: 10_000_000);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+
+        var uploaded = new UploadedDocumentDto
+        {
+            FileName = SelectedFile.Name,
+            ContentType = SelectedFile.ContentType,
+            Data = ms.ToArray()
+        };
+
+        // Send back to parent
+        UploadedDocument = uploaded;
+        await UploadedDocumentChanged.InvokeAsync(uploaded);
+
+    }
+
+    private async Task OnQualificationChanged(ChangeEventArgs e)
+    {
+        QualificationProgram = e.Value?.ToString() ?? "";
+
+        // CLEAR household count if not Income
+        if (QualificationProgram != "Income")
+        {
+            NumberOfHouseholdMembers = null;
+            await NumberOfHouseholdMembersChanged.InvokeAsync(null);
+        }
+
+        await QualificationProgramChanged.InvokeAsync(QualificationProgram);
+    }
+
+
+    // Validate that the file is under 10MB, and either PDF, Doc, or Docx file.
+    private bool ValidateFile()
+    {
+        if (SelectedFile == null)
+        {
+            UploadError = "Please select a file.";
+            return false;
+        }
+
+        if (SelectedFile.Size > 10_000_000) // 10 MB
+        {
+            UploadError = "File size must be under 10 MB.";
+            return false;
+        }
+
+        // Allowed file types: PDF, DOC, DOCX
+        var allowedTypes = new[]
+        {
+"application/pdf", // .pdf
+"application/msword", // .doc
+"application/vnd.openxmlformats-officedocument.wordprocessingml.document" // .docx
+};
+
+        if (!allowedTypes.Contains(SelectedFile.ContentType))
+        {
+            UploadError = "Invalid file type. Please upload a .PDF, .DOC, or .DOCX file.";
+            return false;
+        }
+
+        UploadError = null;
+        return true;
+    }
+
+    // Drag & Drop functionality
+    private bool isDragOver;
+    private void OnDragOver(DragEventArgs e)
+    {
+        isDragOver = true;
+    }
+
+    private void OnDragLeave(DragEventArgs e)
+    {
+        isDragOver = false;
+    }
+
+    // Upload file to server
+
+
+    /* ==================== Code for documentation upload & client-side validation ==================== */
+
+    /* ==================== Make qualification type persistent ==================== */
 
     private string SSN { get; set; }
     private bool ShowSSN { get; set; } = false;

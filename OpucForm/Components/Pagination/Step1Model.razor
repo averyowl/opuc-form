@@ -67,7 +67,10 @@
       {
         @if (providers.Any())
         {
-          <div class="fade-down">
+          <h2>
+            <strong>The following service providers are in your area:</strong>
+          </h2>
+          <div class="fade-down mt-5 mb-5">
             <div class="application__check-dropdown">
               <ul class="application__check-dropdown--list">
                 @foreach (var provider in providers)
@@ -87,14 +90,11 @@
               </ul>
             </div>
 
-            <h2>
-              <strong>The following service providers are in your area:</strong>
-            </h2>
           </div>
         }
         else
         {
-          <div class="fade-down">
+          <div>
             <p class="text-danger mt-1" style="font-size: 1.5rem; font-weight: 500;">
               <!-- MUST be VALID Oregon Zip code. There are providers in every zip code in Oregon. -->
               @ZipErrorMessage
@@ -103,9 +103,12 @@
           </div>
 
         }
+
+
         <div class="fade-down">
           <div class="application__check-msg mb-5">
-            <p style="color: #565656;" class="application__text"><strong>Note: </strong>Not all service providers are part
+            <p style="color: #565656;" class="application__text"><strong>Note: </strong>Not all service providers are
+              part
               of the Oregon Lifeline program. If your provider does not appear in the list, it may mean they do not
               participate. For a complete list of participating providers, please visit: <a
                 href="https://www.oregon.gov/puc/pages/oregon-lifeline.aspx" target="_blank">www.lifeline.oregon.gov</a>
@@ -141,6 +144,8 @@
           </div>
         </div>
 
+
+
       }
 
 
@@ -175,6 +180,7 @@
   /* =========== STEP 1: Check Zip Code =========== */
   [Inject] private IJSRuntime JS { get; set; } = default!;
   [Parameter] public EventCallback<string> OnProviderSelected { get; set; }
+  [Parameter] public EventCallback<string> OnZipEntered { get; set; }
 
   private string zipCode = string.Empty;
   private List<string> providers = new();
@@ -212,17 +218,21 @@
 "Cox Communications"
 };
 
+    if (OnZipEntered.HasDelegate)
+      await OnZipEntered.InvokeAsync(zipCode);
+
     await JS.InvokeVoidAsync("scrollToElement", ".application__message-right--i", 20);
 
   }
 
 
-
+  // Send selected provider to Home.razor.cs
   private async Task SelectProvider(string provider)
   {
     if (OnProviderSelected.HasDelegate)
       await OnProviderSelected.InvokeAsync(provider);
   }
+
 
   /* =========== STEP 1: Check Zip Code =========== */
 

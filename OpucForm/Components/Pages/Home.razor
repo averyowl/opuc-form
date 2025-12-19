@@ -72,16 +72,20 @@
             @switch (CurrentStep)
             {
               case 1:
-                <Step1Model OnProviderSelected="HandleProviderSelected" />
+                <Step1Model OnProviderSelected="HandleProviderSelected" OnZipEntered="HandleZipEntered" />
                 break;
               case 2:
-                <Step2Model SelectedProvider="@selectedProvider" @key="selectedProvider" />
+                <Step2Model SelectedProvider="@selectedProvider" @key="selectedProvider"
+                  @bind-QualificationProgram="QualificationProgram" @bind-UploadedDocument="UploadedDocument"
+                  NumberOfHouseholdMembers="@NumberOfHouseholdMembers"
+                  NumberOfHouseholdMembersChanged="@(v => NumberOfHouseholdMembers = v)" />
                 break;
               case 3:
                 <Step3Model />
                 break;
               case 4:
-                <Step4Model SelectedProvider="@selectedProvider" />
+                <Step4Model SelectedProvider="@selectedProvider" QualificationProgram="@QualificationProgram"
+                  UploadedDocument="@UploadedDocument" NumberOfHouseholdMembers="@NumberOfHouseholdMembers" />
                 break;
             }
           </div>
@@ -101,7 +105,9 @@
           @if (CurrentStep != 1)
           {
             @* "Next" button changes text on the last step *@
-            <button class="btn btn-primary" @onclick="GoNext">
+
+            <button class="btn btn-primary" @onclick="HandleNextOrSubmit">
+
               @{
                 string nextText;
                 if (CurrentStep == TotalSteps)
@@ -158,72 +164,6 @@
 
     </section>
     <hr>
-
-    <!-- Hide for now -->
-    <!--
-    <footer class="footer">
-
-      <div class="footer__about">
-        <h6>Quick Links</h6>
-        <ul class="footer__list">
-          <li class="footer__item">
-            <a target="_blank" class="footer__link" href="https://www.oregon.gov/puc/about-us/Pages/default.aspx">About
-              Us</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/puc/utilities/Pages/default.aspx">Utility Regulation</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link" href="https://www.oregon.gov/pages/agencies.aspx">Agencies
-              Listing</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/puc/safety/Pages/SafetyHome.aspx">Safety</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/pages/terms-and-conditions.aspx">Privacy Policy</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/pages/supported-browsers.aspx">Supported Browsers</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="footer__about">
-        <h6>About Oregon</h6>
-        <ul class="footer__list">
-          <li class="footer__item">
-            <a target="_blank" class="footer__link" href="https://www.oregon.gov/">Oregon.gov</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link" href="https://employeesearch.dasapp.oregon.gov/">State Employee
-              Search</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link" href="https://www.oregon.gov/pages/agencies.aspx">Agencies
-              Listing</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/pages/accessibility.aspx">Accessibility</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/pages/terms-and-conditions.aspx">Privacy Policy</a>
-          </li>
-          <li class="footer__item">
-            <a target="_blank" class="footer__link"
-              href="https://www.oregon.gov/pages/supported-browsers.aspx">Supported Browsers</a>
-          </li>
-        </ul>
-      </div>
-
-    </footer>
--->
 
   </main>
 

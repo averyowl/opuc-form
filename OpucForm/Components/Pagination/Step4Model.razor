@@ -1,3 +1,5 @@
+@using OpucForm.Shared
+
 <h1>Agreement</h1>
 <div class="mt-5 mb-5 form-group application__group application__group--agree">
     <h5>Please read and check each rule to indicate that you understand and agree: <span class="required">*</span></h5>
@@ -135,11 +137,33 @@
                 <h3>Program Qualification</h3>
                 <div class="review__bottom-section">
                     <p class="review__top-text"><strong>Qualification Type:</strong></p>
-                    <p class="review__top-text review__top-text--a">SNAP</p>
+                    <p class="review__top-text review__top-text--a">
+                        @if (ProgramDescriptions.TryGetValue(QualificationProgram, out var label))
+                        {
+                            @label
+                        }
+                        else
+                        {
+                            <text>Not selected</text>
+                        }
+                    </p>
                 </div>
+                <!-- ONLY SHOW IF USER SELECTS "Income" option -->
+                @if (QualificationProgram == "Income" && NumberOfHouseholdMembers.HasValue)
+                {
+                    <div class="review__bottom-section">
+                        <p class="review__top-text"><strong>Number of household members:</strong></p>
+                        <p class="review__top-text review__top-text--a">@NumberOfHouseholdMembers</p>
+                    </div>
+                }
+                <!-- ONLY SHOW IF USER SELECTS "Income" option -->
                 <div class="review__bottom-section">
                     <p class="review__top-text"><strong>Document Uploaded:</strong></p>
-                    <p class="review__top-text review__top-text--a">document.pdf</p>
+                    <p class="review__top-text review__top-text--a">
+                        @(UploadedDocument != null
+                                                ? UploadedDocument.FileName
+                                                : "No document uploaded")
+                    </p>
                 </div>
             </div>
         </div>
@@ -241,7 +265,25 @@
 
 @code {
     [Parameter] public string SelectedProvider { get; set; } = "";
+    [Parameter] public string QualificationProgram { get; set; } = "";
+    [Parameter] public int? NumberOfHouseholdMembers { get; set; }
+    [Parameter] public UploadedDocumentDto? UploadedDocument { get; set; }
+
     [Inject] private IJSRuntime JS { get; set; } = default!;
+    private Dictionary<string, string> ProgramDescriptions { get; set; } = new Dictionary<string, string>
+{
+{ "SNAP", "Supplemental Nutrition Assistance Program (SNAP)" },
+{ "Medicaid", "Medicaid" },
+{ "SSI", "Supplemental Security Income (SSI)" },
+{ "Housing", "Federal Public Housing Assistance (Section 8)" },
+{ "Veterans", "Veterans or Survivors Pension" },
+{ "Income", "Total Household Income ≤ 135% of Federal Poverty Guidelines" },
+{ "TribalGeneral", "Tribal General Assistance" },
+{ "TribalHeadStart", "Tribal Head Start" },
+{ "TribalTANF", "Tribal TANF" },
+{ "TribalFood", "Tribal Food Distribution Program" }
+};
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

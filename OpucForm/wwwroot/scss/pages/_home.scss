@@ -62,6 +62,7 @@
         }
 
         &-left {
+
             @include respond(tab-port) {
                 flex: 50%;
                 justify-content: start;
@@ -70,10 +71,12 @@
 
             @include respond(tab-land) {
                 margin: 0;
+                margin-right: 1rem;
             }
         }
 
         &-right {
+            
             @include respond(tab-port) {
                 flex: 50%;
                 display: flex;
@@ -82,8 +85,7 @@
 
 
                 &--i {
-                    @include respond(tab-port) {
-                    }
+                    width: 100%;
                 }
             }
         }
