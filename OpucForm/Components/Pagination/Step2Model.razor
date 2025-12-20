@@ -90,12 +90,13 @@
 
     <div class="application__group--phoneinfo-i mt-5 mb-5">
         <h2><strong>Social Security #</strong></h2>
-        <p class="application__text">Enter the last 4 digits of their Social Security Number.</p>
+        <p class="application__text">Enter the last @SSNDigitCount digits of their Social Security Number.</p>
 
-        <label class="application__form-label" for="firstName">Last 4 digits of their SSN <span
+        <label class="application__form-label" for="firstName">Last @SSNDigitCount digits of their SSN <span
                 class="required">*</span></label>
-        <input @bind="SSN" type="@InputType" class="form-control form-control-lg application__input" id="ssn"
-            inputmode="numeric" placeholder="0000" maxlength="4" required />
+        <input value="@FormattedSSN" @oninput="ApplyMask" type="@InputType"
+            class="form-control form-control-lg application__input" id="ssn" inputmode="numeric"
+            placeholder="@(SSNDigitCount == 6 ? "00-0000" : "0000")" maxlength="@MaxLength" required />
 
         <div class="step2__check form-check mt-2">
             <input class="step2__check--input form-check-input" type="checkbox" id="showSSN" @bind="ShowSSN" />
@@ -256,4 +257,40 @@
     public DateTime MinDob => DateTime.Today;
 
 
+    // Toggle this for either 4 or 6 digits ssn input
+    private int SSNDigitCount { get; set; } = 6;
+
+    // Adjust the max length based on the SSN digit count 7 for 6 digits, 4 the same
+    private int MaxLength => SSNDigitCount == 6 ? 7 : 4;
+
+    private string FormattedSSN
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(SSN)) return "";
+            if (SSNDigitCount == 6 && SSN.Length > 2)
+            {
+                return SSN.Insert(2, "-");
+
+            }
+
+            return SSN;
+        }
+    }
+
+    private void ApplyMask(ChangeEventArgs args)
+    {
+        // Remove everything except numbers
+        var val = args.Value?.ToString() ?? "";
+        var digitsOnly = new string(val.Where(char.IsDigit).ToArray());
+        // Constrain to the current digit count limit
+        if (digitsOnly.Length > SSNDigitCount)
+        {
+            SSN = digitsOnly.Substring(0, SSNDigitCount);
+        }
+        else
+        {
+            SSN = digitsOnly;
+        }
+    }
 }
