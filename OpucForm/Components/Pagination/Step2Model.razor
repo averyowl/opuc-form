@@ -1,6 +1,6 @@
 <h1>Service Account Information</h1>
 <div class="step2 mt-4">
-    <h3 class="step2__h">Selected Service Provider:</h3>
+    <h2 class="step2__h">Selected Service Provider:</h2>
     <p class="step2__p application__text"><strong>@SelectedProvider</strong></p>
 </div>
 
@@ -32,6 +32,7 @@
         participates in a qualifying program. <span class="required">*</span></p>
 
     <fieldset class="mt-3">
+        <legend style="display: none;">Qualification Program child dependant</legend>
         <div class="application__radio-group">
             <label class="application__radio-option">
                 <input type="radio" name="applicantType" id="childOrDependant" value="yes"
@@ -81,7 +82,7 @@
     <div class="application__group--phoneinfo-i mt-5 mb-5">
         <h2><strong>Date of Birth</strong></h2>
 
-        <label class="application__form-label" for="firstName">Format: 01/01/1975 <span class="required">*</span></label>
+        <label class="application__form-label" for="dob">Format: 01/01/1975 <span class="required">*</span></label>
         <input type="date" class="form-control form-control-lg application__input" id="dob"
             min="@MinDob.ToString("yyyy-MM-dd")" max="@MaxDob.ToString("yyyy-MM-dd")" required />
 
@@ -92,8 +93,7 @@
         <h2><strong>Social Security #</strong></h2>
         <p class="application__text">Enter the last 4 digits of their Social Security Number.</p>
 
-        <label class="application__form-label" for="firstName">Last 4 digits of their SSN <span
-                class="required">*</span></label>
+        <label class="application__form-label" for="ssn">Last 4 digits of their SSN <span class="required">*</span></label>
         <input @bind="SSN" type="@InputType" class="form-control form-control-lg application__input" id="ssn"
             inputmode="numeric" placeholder="0000" maxlength="4" required />
 
@@ -117,8 +117,9 @@
     <p class="application__text">If you are applying for Oregon Lifeline on the basis of Federal Public Housing
         Assitance (Section 8), Veterans or Survivors Pension benefits, or any of the tribal benefits, you must submit
         valid documentation.</p>
-    <h2><strong>How Does the Applicant Quality for Oregon Lifeline?</strong></h2>
-
+    <label for="qualificationProgram" class="form-label application__form-label"><strong>How Does the Applicant Quality
+            for Oregon Lifeline?</strong>
+    </label>
     <select id="qualificationProgram" name="qualificationProgram"
         class="form-control form-control-lg application__input application__input-select" @bind="QualificationProgram"
         required>
@@ -218,6 +219,7 @@
     [Parameter]
     public string SelectedProvider { get; set; } = "";
     private string? QualificationProgram { get; set; } = "";
+
     // Explain what each of the qualification programs are
     private readonly Dictionary<string, string> ProgramDescriptions = new()
     {

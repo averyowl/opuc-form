@@ -118,7 +118,7 @@
                 align-items: center;
                 padding: 1.35rem 1.55rem;
                 border-radius: 0.85rem;
-                border: 1px solid #ccc;
+                border: 1px solid #6E6E6E;
             }
 
             &--list {
@@ -294,7 +294,7 @@
         font-size: 1.75rem;
         padding: 1rem 1.5rem;
         border-radius: 0.5rem;
-        border: 1px solid #ccc;
+        border: 1px solid #6E6E6E;
         transition: border-color 0.2s ease;
 
 
@@ -370,7 +370,11 @@
 }
 
     .required {
-        color: red;
+        color: #D60000;
+    }
+
+    .text_danger {
+        color: #D60000;
     }
 
     .hidden {

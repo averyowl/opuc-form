@@ -89,22 +89,22 @@ body {
   font-family: "Lato", sans-serif;
   font-weight: 400;
   line-height: 1.7;
-  color: #444;
+  color: #4D4D4D;
   background-color: #fafafa;
 }
 
 h1 {
   font-size: 2.55rem;
-  color: #487b00;
+  color: #487B00;
   font-weight: 600;
 }
 
 h2 {
-  color: #487b00;
+  color: #487B00;
 }
 
 h3 {
-  color: #487b00;
+  color: #3E6B00;
   width: 100%;
   font-weight: 600;
 }
@@ -130,7 +130,7 @@ h6 {
   font-size: 1.45rem;
   padding: 1.25rem 0;
   font-weight: 600;
-  background-color: #487b00;
+  background-color: #487B00;
   border-color: #2e6da4;
 }
 
@@ -183,7 +183,7 @@ h6 {
 }
 
 .pindicator .bullet::after {
-  background-color: #487b00;
+  background-color: #487B00;
   transition: opacity 0.25s ease-out;
   opacity: 0;
   width: 100%;
@@ -203,7 +203,7 @@ h6 {
 .pindicator .icon {
   background-color: #fff;
   border-radius: 100%;
-  color: #444;
+  color: #4D4D4D;
   font-size: 1.5rem;
   display: inline-block;
   height: 2em;
@@ -223,7 +223,7 @@ h6 {
 
 .pindicator .past .icon,
 .pindicator .current .icon {
-  background-color: #487b00;
+  background-color: #487B00;
   color: white;
 }
 
@@ -289,7 +289,7 @@ h6 {
   align-content: center;
 }
 .step2__h {
-  color: #487b00;
+  color: #487B00;
   font-weight: 600;
   margin: 0;
 }
@@ -312,10 +312,10 @@ h6 {
   gap: 0.5rem;
   padding: 1rem 1.25rem;
   background-color: #f9f9f9;
-  border: 2px solid #487b00;
+  border: 2px solid #487B00;
   border-radius: 8px;
   cursor: pointer;
-  color: #487b00;
+  color: #487B00;
   font-size: 1.5rem;
   font-weight: 600;
   transition: background 0.2s ease;
@@ -333,7 +333,7 @@ h6 {
   display: flex;
 }
 
-input[type="file"] {
+input[type=file] {
   position: absolute;
   inset: 0;
   opacity: 0;
@@ -360,8 +360,7 @@ i {
   border-bottom: 1px solid #ccc;
   padding: 1rem 0;
 }
-.footer__link:link,
-.footer__link:visited {
+.footer__link:link, .footer__link:visited {
   font-size: 1.75rem;
 }
 
@@ -546,7 +545,7 @@ i {
   align-items: center;
   padding: 1.35rem 1.55rem;
   border-radius: 0.85rem;
-  border: 1px solid #ccc;
+  border: 1px solid #6E6E6E;
 }
 .application__check-dropdown--list {
   padding: 0;
@@ -569,13 +568,13 @@ i {
   margin: 0;
 }
 .application__check-dropdown--subtext {
-  color: #487b00;
+  color: #487B00;
   margin: 0;
   font-size: 1.35rem;
   margin-right: 6px;
 }
 .application__check-dropdown--icon {
-  color: #487b00;
+  color: #487B00;
 }
 .application__check-form {
   width: 100%;
@@ -678,7 +677,7 @@ i {
   font-size: 1.75rem;
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid #6E6E6E;
   transition: border-color 0.2s ease;
 }
 .application__input:not(:last-child) {
@@ -739,7 +738,11 @@ i {
 }
 
 .required {
-  color: red;
+  color: #D60000;
+}
+
+.text_danger {
+  color: #D60000;
 }
 
 .hidden {

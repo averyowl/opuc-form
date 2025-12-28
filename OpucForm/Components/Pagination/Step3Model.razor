@@ -1,7 +1,7 @@
 <h1>Applicant information</h1>
 
 <div class="application__group--phoneinfo-i mt-5 mb-5">
-    <h2><strong>Fill out your child or dependants information</strong></h2>
+    <h2><strong>Fill out your information</strong></h2>
     <div class="application__group--name-div mb-3">
         <label class="application__form-label" for="firstName"><strong>First Name</strong> <span
                 class="required">*</span></label>
@@ -28,7 +28,7 @@
 <div class="application__group--phoneinfo-i mt-5 mb-5">
     <h2><strong>Date of Birth</strong></h2>
 
-    <label class="application__form-label" for="firstName">Format: 01/01/1975 <span class="required">*</span></label>
+    <label class="application__form-label" for="dob">Format: 01/01/1975 <span class="required">*</span></label>
     <input type="date" class="form-control form-control-lg application__input" id="dob" min="1900-01-01"
         max="2025-11-27" required />
 
@@ -39,8 +39,7 @@
     <h2><strong>Social Security #</strong></h2>
     <p class="application__text">Enter the last 4 digits of their Social Security Number.</p>
 
-    <label class="application__form-label" for="firstName">Last 4 digits of their SSN <span
-            class="required">*</span></label>
+    <label class="application__form-label" for="ssn">Last 4 digits of their SSN <span class="required">*</span></label>
     <input @bind="SSN" type="@InputType" class="form-control form-control-lg application__input" id="ssn"
         inputmode="numeric" placeholder="0000" maxlength="4" required />
 
@@ -66,7 +65,7 @@
     <input type="text" id="contactPhone" class="form-control form-control-lg application__input" inputmode="numeric"
         placeholder="123-123-1234" maxlength="12" required />
 
-    <label for="contactPhone" class="application__form-label">
+    <label for="contactEmail" class="application__form-label">
         <strong>Email Address</strong> <span class="required">*</span>
     </label>
     <input type="text" id="contactEmail" class="form-control form-control-lg application__input" inputmode="numeric"
