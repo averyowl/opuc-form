@@ -94,7 +94,7 @@
 
         <label class="application__form-label" for="firstName">Last @SSNDigitCount digits of their SSN <span
                 class="required">*</span></label>
-        <input value="@FormattedSSN" @oninput="ApplyMask" type="@InputType"
+        <input value="@SSN" @oninput="HandleSSNMask" type="@InputType"
             class="form-control form-control-lg application__input" id="ssn" inputmode="numeric"
             placeholder="@(SSNDigitCount == 6 ? "00-0000" : "0000")" maxlength="@MaxLength" required />
 
@@ -260,34 +260,23 @@
     // Toggle this for either 4 or 6 digits ssn input
     private int SSNDigitCount { get; set; } = 6;
 
-    // Adjust the max length based on the SSN digit count 7 for 6 digits, 4 the same
+    // Adjust the max length based on the SSN digit count 7 for 6 digits, 4the keep the same
     private int MaxLength => SSNDigitCount == 6 ? 7 : 4;
 
-    private string FormattedSSN
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(SSN)) return "";
-            if (SSNDigitCount == 6 && SSN.Length > 2)
-            {
-                return SSN.Insert(2, "-");
 
-            }
-
-            return SSN;
-        }
-    }
-
-    private void ApplyMask(ChangeEventArgs args)
+    private void HandleSSNMask(ChangeEventArgs args)
     {
         // Remove everything except numbers
         var val = args.Value?.ToString() ?? "";
         var digitsOnly = new string(val.Where(char.IsDigit).ToArray());
-        // Constrain to the current digit count limit
-        if (digitsOnly.Length > SSNDigitCount)
+
+        // Format the SSN based on the selected digit count (6 or 4)
+        // For 6 digits, format as XX-XXXX
+        if (digitsOnly.Length == 6)
         {
-            SSN = digitsOnly.Substring(0, SSNDigitCount);
+            SSN = $"{digitsOnly.Substring(0, 2)}-{digitsOnly.Substring(2)}";
         }
+        // For 4 digits, keep the same
         else
         {
             SSN = digitsOnly;

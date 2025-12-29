@@ -42,7 +42,7 @@
     <label class="application__form-label" for="firstName">Last @SSNDigitCount digits of their SSN <span
             class="required">*</span></label>
 
-    <input value="@FormattedSSN" @oninput="ApplyMask" type="@InputType"
+    <input value="@SSN" @oninput="HandleSSNMask" type="@InputType"
         class="form-control form-control-lg application__input" id="ssn" inputmode="numeric"
         placeholder="@(SSNDigitCount == 6 ? "00-0000" : "0000")" maxlength="@MaxLength" required />
 
@@ -65,8 +65,9 @@
     <small class="text-muted d-block mb-2 application__form-small">
         Format: 123-123-1234
     </small>
-    <input type="text" id="contactPhone" class="form-control form-control-lg application__input" inputmode="numeric"
-        placeholder="123-123-1234" maxlength="12" required />
+    <input value="@phoneNumber" @oninput="HandlePhoneInput" type="text" id="contactPhone"
+        class="form-control form-control-lg application__input" inputmode="numeric" placeholder="123-123-1234"
+        maxlength="14" required />
 
     <label for="contactPhone" class="application__form-label">
         <strong>Email Address</strong> <span class="required">*</span>
@@ -223,8 +224,7 @@
     private string InputType => ShowSSN ? "text" : "password";
     /* Code to show/hide ssn field */
 
-
-
+    private string phoneNumber { get; set; }
 
     /* Code for togging "My mailing address is the same as my residential address" -> another address field pops up for the
     applicant to enter mailing address */
@@ -259,36 +259,45 @@
 
     // Adjust the max length based on the SSN digit count 7 for 6 digits, 4 the keep the same
     private int MaxLength => SSNDigitCount == 6 ? 7 : 4;
-
-    private string FormattedSSN
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(SSN)) return "";
-            if (SSNDigitCount == 6 && SSN.Length > 2)
-            {
-                return SSN.Insert(2, "-");
-
-            }
-
-            return SSN;
-        }
-    }
-
-    private void ApplyMask(ChangeEventArgs args)
+    private void HandleSSNMask(ChangeEventArgs args)
     {
         // Remove everything except numbers
         var val = args.Value?.ToString() ?? "";
         var digitsOnly = new string(val.Where(char.IsDigit).ToArray());
 
-        // Constrain to the current digit count limit
-        if (digitsOnly.Length > SSNDigitCount)
+        // Format the SSN based on the selected digit count (6 or 4)
+        // For 6 digits, format as XX-XXXX
+        if (digitsOnly.Length == 6)
         {
-            SSN = digitsOnly.Substring(0, SSNDigitCount);
+            SSN = $"{digitsOnly.Substring(0, 2)}-{digitsOnly.Substring(2)}";
         }
+        // For 4 digits, keep the same
         else
         {
             SSN = digitsOnly;
         }
+    }
+
+    private void HandlePhoneInput(ChangeEventArgs e)
+    {
+        // Remove everything except numbers
+        string rawInput = e.Value?.ToString() ?? string.Empty;
+
+        string digitsOnly = new string(rawInput.Where(char.IsDigit).ToArray());
+
+        // Format the Phone number as (123)-123-1234
+        if (digitsOnly.Length <= 3)
+        {
+            phoneNumber = digitsOnly;
+        }
+        else if (digitsOnly.Length <= 6)
+        {
+            phoneNumber = $"({digitsOnly.Substring(0, 3)})-{digitsOnly.Substring(3)}";
+        }
+        else
+        {
+            phoneNumber = $"({digitsOnly.Substring(0, 3)})-{digitsOnly.Substring(3, 3)}-{digitsOnly.Substring(6)}";
+        }
+
     }
 }
